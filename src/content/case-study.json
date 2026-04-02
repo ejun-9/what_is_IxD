@@ -1,0 +1,152 @@
+{
+  "partLabel": "Case Study",
+  "chapterTitle": "Cohort Building Experience",
+  "lead": "Before jumping into interaction details, this case study starts with who uses cohort tools and what “cohort building” means in healthcare data—so the rest of the story has a clear anchor.",
+  "leadHighlights": [
+    {
+      "label": "The user",
+      "text": "Healthcare data analysts who define and refine patient cohorts for research and clinical analysis."
+    },
+    {
+      "label": "Patient cohorts",
+      "text": "Groups of individuals who share characteristics—disease, demographics (age, gender, location), enrollment type—and are followed over time for research or clinical use."
+    },
+    {
+      "label": "Cohort builders",
+      "text": "Products that help analysts discover and group patients in a no-code or low-code way, instead of writing queries by hand against raw data."
+    }
+  ],
+  "beats": [
+    {
+      "kicker": "Problem",
+      "title": "They were building blind",
+      "body": "The legacy cohort builder, “Prism,” generated a single cohort report—and it took between 30 and 60 minutes to complete.",
+      "plain": true,
+      "figures": [
+        {
+          "src": "/images/case-study/problem-on-hover-code-name.svg",
+          "alt": "UI: on hover, cohort builder shows the underlying code name"
+        },
+        {
+          "src": "/images/case-study/problem-frame-16345.svg",
+          "alt": "Problem framing: legacy cohort building context"
+        }
+      ]
+    },
+    {
+      "kicker": "Solution",
+      "title": "Give them a window into what they’re building",
+      "body": "We curated default aggregate panels that provided users with quick counts and visualization so they could gut check and validate the cohort they were building as they were actively building their cohort.",
+      "plain": true,
+      "figures": [
+        {
+          "src": "/images/case-study/cohort-builder-og-screen.svg",
+          "alt": "Cohort Builder — original screen with aggregate panels and cohort context"
+        }
+      ]
+    },
+    {
+      "kicker": "Solution",
+      "title": "And let them customize what they see",
+      "body": "Cohorts are an art form, and there are multiple use cases and reasons why a user might be building a cohort. To serve those needs, we added a curated selection of aggregate panels to choose from.",
+      "plain": true,
+      "figures": [
+        {
+          "src": "/images/case-study/solution-customize-panels.svg",
+          "alt": "Curated aggregate panels — customize what appears in the cohort view"
+        }
+      ]
+    },
+    {
+      "kicker": "Carry forward",
+      "title": "Then we added AI",
+      "body": "Same user, same cohort problem. New confidence problem.",
+      "plain": true,
+      "figures": [
+        {
+          "src": "/images/case-study/carry-forward-frame-16346.svg",
+          "alt": "Carry forward — then we added AI; same cohort problem, new confidence problem"
+        }
+      ]
+    },
+    {
+      "kicker": "AI product problem",
+      "title": "Users were ignoring the chat",
+      "body": "We followed the more used pattern within the agentic building experience.",
+      "plain": true,
+      "figures": [
+        {
+          "src": "/images/case-study/prism-demo.svg",
+          "alt": "AI product problem — users were ignoring the chat; agentic building pattern"
+        }
+      ]
+    },
+    {
+      "kicker": "Process",
+      "title": "We explored new layouts",
+      "body": "With Figma Make, we quickly created new layouts for live testing and front-end development.",
+      "plain": true,
+      "figuresCarousel": true,
+      "figures": [
+        {
+          "src": "/images/case-study/process-frame1.svg",
+          "alt": "Process — layout frame"
+        },
+        {
+          "src": "/images/case-study/process-2.svg",
+          "alt": "Process — layout exploration slide 1"
+        },
+        {
+          "src": "/images/case-study/process-3.svg",
+          "alt": "Process — layout exploration slide 2"
+        },
+        {
+          "src": "/images/case-study/process-4.svg",
+          "alt": "Process — layout exploration slide 3"
+        }
+      ]
+    },
+    {
+      "kicker": "Process",
+      "title": "Eng in the room from day 1",
+      "body": "It’s part of my design process to involve and engage engineering from day 1—and in my research as well. How involved is up to them and their bandwidth, but it’s important for them to know why they are building what they are building. Not just a feasibility check, and definitely not just handoff.",
+      "plain": true
+    },
+    {
+      "kicker": "Outcome",
+      "title": "Activation as a design metric",
+      "body": "When the path from intent to a usable cohort collapses from months of ramp-up to on the order of minutes for new users, that is not polish—it is product design, research, and partnership with engineering and data science in one loop.",
+      "plain": true,
+      "prototypeCta": {
+        "intro": "View clickable prototype:",
+        "label": "check out the vibe coded prototype ;)",
+        "href": "https://prism-prototype-sigma.vercel.app/"
+      }
+    },
+    {
+      "kicker": "Insight",
+      "title": "AI available—not the dominant UX",
+      "body": "The behavioral pattern we kept seeing was analysts moving between familiar cohort tools and occasional AI help—not living inside a chat-first surface. That’s why the winning layout anchored on the builder and panels: it matched how people actually worked, and let AI sit alongside the workflow instead of replacing it. Users want AI within reach, but they don’t want it to own the experience.",
+      "plain": true
+    },
+    {
+      "title": "Learnings",
+      "body": "",
+      "plain": true,
+      "learningColumns": [
+        {
+          "title": "Existing patterns carry hidden assumptions. Name them before you build on them",
+          "body": "We adopted the standard agentic builder pattern. The assumption: users would keep chatting with AI throughout the session. They didn’t. One-shot prompt, then point-and-click. That mismatch cost us 3 weeks."
+        },
+        {
+          "title": "Frequency of updates isn’t alignment. Documentation is",
+          "body": "Leadership heard from us every week. But not everyone who needed to be in the room was—and without a paper trail, decisions didn’t travel. Coverage > cadence."
+        },
+        {
+          "title": "AI confidence is a product problem, not a feature problem",
+          "body": "Users who understood how the LLM worked moved through the product confidently. Users who didn’t, second-guessed every output. The design job: surface just enough information to build trust — make the rest accessible, not default."
+        }
+      ]
+    }
+  ]
+}
