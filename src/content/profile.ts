@@ -112,6 +112,15 @@ export type ProfileContent = {
     chapterTitle: string;
     items: MythReality[];
   };
+  /** Product design craft when AI is in the product—not model training, but experience and judgment. */
+  productDesignAiEra: {
+    partLabel: string;
+    chapterTitle: string;
+    lead: string;
+    /** Optional second intro block (e.g. future-shaping, ethics of defaults). */
+    leadSecondary?: string;
+    points: ExplainerPoint[];
+  };
   practice: {
     partLabel: string;
     chapterTitle: string;
@@ -376,8 +385,34 @@ export const profile: ProfileContent = {
       },
     ],
   },
-  practice: {
+  productDesignAiEra: {
     partLabel: "Part five",
+    chapterTitle: "Product design in the age of AI",
+    lead:
+      "AI in the product changes the shape of the work—it adds inference, confidence, and failure modes that aren’t visible in a static mock. Being a product designer today still means owning clarity, flow, and trust; it also means partnering with engineers and data folks so what we ship matches how the system actually behaves, not only how we wish it behaved.",
+    leadSecondary:
+      "We’re also in the business of designing and shaping the future in small but real ways: what gets automated first, what stays slow on purpose, who benefits when the system is wrong, and what “normal” looks like once a workflow sticks. The interfaces and patterns we ship don’t just solve today—they train habits and expectations for tomorrow.",
+    points: [
+      {
+        title: "Experience over the model",
+        body: "Most of us aren’t training models—we’re designing what people see, do, and understand when a model is in the loop: empty states, loading, corrections, and what happens when the system is wrong. That’s the product surface.",
+      },
+      {
+        title: "Judgment and sequencing",
+        body: "The craft is still sequencing information, setting expectations, and choosing what to automate vs. leave explicit. AI can compress steps; the design job is to make sure that compression doesn’t erase accountability.",
+      },
+      {
+        title: "Same partnership, sharper loops",
+        body: "Tight collaboration with engineering (and research, when you have it) isn’t new—it’s just higher stakes when behavior can drift with data and prompts. Design helps the team align on what “good” looks like for real users, not only for demos.",
+      },
+      {
+        title: "What stays constant",
+        body: "Tools and buzzwords will keep changing. What doesn’t is advocating for understandable, fair, and resilient experiences—whether the backend is rules, ML, or something in between.",
+      },
+    ],
+  },
+  practice: {
+    partLabel: "Part six",
     chapterTitle: "How I practice",
     lead: "Skills and tools I reach for most often—grounded in product work, research, and AI-era workflows.",
     skillGroups: [
@@ -429,7 +464,7 @@ export const profile: ProfileContent = {
     linkedInLabel: "linkedin.com/in/ejung96",
   },
   credits: {
-    body: "Single-page story built with Next.js and Framer Motion. Content reflects my resume; case study deck linked in Part six; layout inspired by editorial scrollytelling.",
+    body: "Single-page story built with Next.js and Framer Motion. Content reflects my resume; case study deck linked in Part seven; layout inspired by editorial scrollytelling.",
     referenceUrl: "https://searchingforbirds.visualcinnamon.com/",
     referenceLabel: "Searching for Birds — Visual Cinnamon",
   },

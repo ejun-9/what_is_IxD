@@ -7,13 +7,13 @@ import { ExperienceScrollCarousel } from "@/components/sections/ExperienceScroll
 export function ExperienceSection({ experience }: { experience: ProfileContent["experience"] }) {
   return (
     <ScrollZoomSection
-      className="border-t border-[var(--rule)] py-16 md:py-22"
+      className="border-t border-[var(--rule)] py-12 md:py-16"
       innerClassName="mx-auto max-w-content px-5 md:px-8"
       scaleRange={[0.95, 1, 0.97]}
     >
       <SectionHeader partLabel={experience.partLabel} title={experience.chapterTitle} />
       <FadeIn>
-        <p className="mb-8 max-w-prose text-lg leading-relaxed text-[var(--body)]">{experience.lead}</p>
+        <p className="mb-6 max-w-prose text-lg leading-relaxed text-[var(--body)]">{experience.lead}</p>
       </FadeIn>
       <ol className="relative space-y-10 before:absolute before:left-[7px] before:top-2 before:h-[calc(100%-1rem)] before:w-px before:bg-[var(--rule-strong)] md:before:left-[9px]">
         {experience.timeline.map((job, i) => {

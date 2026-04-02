@@ -6,7 +6,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 export function HeroSection({ hero }: { hero: ProfileContent["hero"] }) {
   return (
     <ScrollZoomSection
-      className="pt-10 pb-16 md:pt-16 md:pb-22"
+      className="pt-8 pb-12 md:pt-14 md:pb-16"
       innerClassName="mx-auto max-w-content px-5 md:px-8"
       scaleRange={[0.9, 1, 0.98]}
     >
@@ -24,7 +24,7 @@ export function HeroSection({ hero }: { hero: ProfileContent["hero"] }) {
             </h1>
             <p className="mt-4 text-xl text-[var(--ink-soft)] md:text-2xl">{hero.role}</p>
             <p className="mt-2 text-sm text-[var(--muted)]">{hero.location}</p>
-            <p className="mt-8 max-w-prose text-base leading-[1.75] text-[var(--body)]">{hero.intro}</p>
+            <p className="mt-6 max-w-prose text-base leading-[1.75] text-[var(--body)]">{hero.intro}</p>
           </FadeIn>
         </div>
         {hero.portraitSrc ? (

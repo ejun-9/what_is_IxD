@@ -18,12 +18,12 @@ export function CaseStudySection({ caseStudy }: { caseStudy: ProfileContent["cas
 
   return (
     <ScrollZoomSection
-      className="border-t border-[var(--rule)] py-12 md:py-16"
+      className="border-t border-[var(--rule)] py-10 md:py-14"
       innerClassName="mx-auto max-w-content px-5 md:px-8"
       disableScale
     >
       <SectionHeader
-        className="!mb-7 md:!mb-9"
+        className="!mb-5 md:!mb-7"
         partLabel={caseStudy.partLabel}
         title={caseStudy.chapterTitle}
       />

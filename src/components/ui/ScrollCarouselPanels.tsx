@@ -22,9 +22,9 @@ export function ScrollCarouselPanels({ children, className = "" }: Props) {
     offset: ["start start", "end end"],
   });
 
-  /** Short pauses so we don’t scroll through long “dead” zones after the last slide. */
-  const startPause = 0.05;
-  const endPause = 0.05;
+  /** Minimal pauses at start/end so scroll distance matches the scrub (no huge “empty” tail). */
+  const startPause = 0.02;
+  const endPause = 0.02;
   const t0 = startPause;
   const t1 = 1 - endPause;
 
@@ -47,13 +47,20 @@ export function ScrollCarouselPanels({ children, className = "" }: Props) {
   }
 
   const trackWidthPct = n * 100;
+  /**
+   * Pin track must stay taller than the sticky viewport (`min-h-[100dvh]`) or scroll
+   * progress never moves smoothly and the section can feel “stuck.”
+   * Scales a bit with slide count; floor ~125vh, cap ~170vh.
+   */
+  const pinMinVh = Math.min(170, Math.max(125, 48 + n * 28));
 
   return (
     <div
       ref={pinRef}
-      className={`relative mx-auto w-full min-h-[200vh] md:min-h-[240vh] ${className}`}
+      className={`relative mx-auto w-full touch-pan-y ${className}`}
+      style={{ minHeight: `${pinMinVh}vh` }}
     >
-      <div className="sticky top-0 z-10 flex min-h-[100dvh] flex-col justify-start overflow-visible pt-4 pb-6 md:pt-5 md:pb-8">
+      <div className="sticky top-0 z-10 flex min-h-[100dvh] w-full flex-col justify-center overflow-visible py-4 md:py-6">
         <div className="-mx-4 sm:-mx-6 md:-mx-10 lg:-mx-12 xl:-mx-16">
           <div className="overflow-hidden px-[min(6%,1.5rem)] md:mx-auto md:max-w-5xl">
             <div>

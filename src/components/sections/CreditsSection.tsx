@@ -3,7 +3,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 
 export function CreditsSection({ credits }: { credits: ProfileContent["credits"] }) {
   return (
-    <footer className="border-t border-[var(--rule)] bg-[var(--wash)] py-10">
+    <footer className="border-t border-[var(--rule)] bg-[var(--wash)] py-8">
       <div className="mx-auto max-w-content px-5 md:px-8">
         <FadeIn>
           <p className="max-w-prose text-sm leading-relaxed text-[var(--muted)]">{credits.body}</p>

@@ -19,8 +19,8 @@ export function ScrollCarouselFigures({ slides }: { slides: Slide[] }) {
   });
 
   const n = slides.length;
-  const startPause = 0.05;
-  const endPause = 0.05;
+  const startPause = 0.02;
+  const endPause = 0.02;
   const t0 = startPause;
   const t1 = 1 - endPause;
 
@@ -68,13 +68,15 @@ export function ScrollCarouselFigures({ slides }: { slides: Slide[] }) {
   }
 
   const trackWidthPct = n * 100;
+  const pinMinVh = Math.min(170, Math.max(125, 48 + n * 28));
 
   return (
     <div
       ref={pinRef}
-      className="relative mx-auto w-full min-h-[200vh] md:min-h-[240vh]"
+      className="relative mx-auto w-full touch-pan-y"
+      style={{ minHeight: `${pinMinVh}vh` }}
     >
-      <div className="sticky top-0 z-10 flex min-h-[100dvh] flex-col justify-start overflow-visible pt-4 pb-6 md:pt-5 md:pb-8">
+      <div className="sticky top-0 z-10 flex min-h-[100dvh] w-full flex-col justify-center overflow-visible py-4 md:py-6">
         <div className="-mx-4 sm:-mx-6 md:-mx-10 lg:-mx-12 xl:-mx-16">
           <div className="overflow-hidden rounded-xl p-[min(6%,1.5rem)] md:mx-auto md:max-w-5xl">
             <motion.div

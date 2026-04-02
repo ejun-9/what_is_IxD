@@ -5,13 +5,13 @@ import { FadeIn } from "@/components/ui/FadeIn";
 export function FooterSection({ contact }: { contact: ProfileContent["contact"] }) {
   return (
     <ScrollZoomSection
-      className="border-t border-[var(--rule)] py-16 md:py-20"
+      className="border-t border-[var(--rule)] py-12 md:py-16"
       innerClassName="mx-auto max-w-content px-5 md:px-8"
       scaleRange={[0.98, 1, 1]}
     >
       <FadeIn>
         <h2 className="font-display text-3xl font-medium text-[var(--ink)] md:text-4xl">Say hello</h2>
-        <ul className="mt-8 space-y-4 text-lg">
+        <ul className="mt-6 space-y-3 text-lg">
           <li>
             <a
               href={`tel:${contact.phone.replace(/\s/g, "")}`}

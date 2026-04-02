@@ -6,9 +6,9 @@ type SectionHeaderProps = {
 
 export function SectionHeader({ partLabel, title, className = "" }: SectionHeaderProps) {
   return (
-    <header className={`mb-7 md:mb-10 ${className}`}>
+    <header className={`mb-5 md:mb-7 ${className}`}>
       {partLabel ? (
-        <p className="mb-3 text-xs font-medium tracking-[0.12em] text-[var(--muted)]">
+        <p className="mb-2 text-xs font-medium tracking-[0.12em] text-[var(--muted)]">
           {partLabel}
         </p>
       ) : null}

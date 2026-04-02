@@ -11,15 +11,15 @@ export function ExplainerSection({
 }) {
   return (
     <ScrollZoomSection
-      className="border-t border-[var(--rule)] py-16 md:py-22"
+      className="border-t border-[var(--rule)] py-12 md:py-16"
       innerClassName="mx-auto max-w-content overflow-visible px-5 md:px-8"
       disableScale
     >
       <SectionHeader partLabel={data.partLabel} title={data.chapterTitle} />
       <FadeIn>
-        <p className="mb-8 max-w-prose text-lg leading-relaxed text-[var(--body)]">{data.intro}</p>
+        <p className="mb-6 max-w-prose text-lg leading-relaxed text-[var(--body)]">{data.intro}</p>
       </FadeIn>
-      <ScrollCarouselPanels className="mt-2 md:mt-4">
+      <ScrollCarouselPanels className="mt-0 md:mt-2">
         {data.points.map((p, i) => (
           <article
             key={p.title}

@@ -6,13 +6,13 @@ import { FadeIn } from "@/components/ui/FadeIn";
 export function PracticeSection({ practice }: { practice: ProfileContent["practice"] }) {
   return (
     <ScrollZoomSection
-      className="border-t border-[var(--rule)] py-16 md:py-22"
+      className="border-t border-[var(--rule)] py-12 md:py-16"
       innerClassName="mx-auto max-w-content px-5 md:px-8"
       scaleRange={[0.96, 1, 0.97]}
     >
       <SectionHeader partLabel={practice.partLabel} title={practice.chapterTitle} />
       <FadeIn>
-        <p className="mb-8 max-w-prose text-lg leading-relaxed text-[var(--body)]">{practice.lead}</p>
+        <p className="mb-6 max-w-prose text-lg leading-relaxed text-[var(--body)]">{practice.lead}</p>
       </FadeIn>
       <div className="space-y-7">
         {practice.skillGroups.map((g) => (

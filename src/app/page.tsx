@@ -5,6 +5,7 @@ import { EducationSection } from "@/components/sections/EducationSection";
 import { ExperienceSection } from "@/components/sections/ExperienceSection";
 import { ExplainerSection } from "@/components/sections/ExplainerSection";
 import { DesignRealitySection } from "@/components/sections/DesignRealitySection";
+import { ProductDesignAiEraSection } from "@/components/sections/ProductDesignAiEraSection";
 import { PracticeSection } from "@/components/sections/PracticeSection";
 import { CaseStudyGate } from "@/components/sections/CaseStudyGate";
 import { FooterSection } from "@/components/sections/FooterSection";
@@ -20,6 +21,7 @@ export default function Home() {
         <ExperienceSection experience={profile.experience} />
         <ExplainerSection data={profile.interactionDesignExplainer} />
         <DesignRealitySection data={profile.designReality} />
+        <ProductDesignAiEraSection data={profile.productDesignAiEra} />
         <PracticeSection practice={profile.practice} />
         <CaseStudyGate caseStudy={profile.caseStudy} />
         <FooterSection contact={profile.contact} />

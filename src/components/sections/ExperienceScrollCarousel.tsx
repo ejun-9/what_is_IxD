@@ -61,7 +61,7 @@ export function ExperienceScrollCarousel({ job }: Props) {
   return (
     <div
       ref={scrollRef}
-      className="relative min-h-[125vh] md:min-h-[150vh]"
+      className="relative min-h-[95vh] md:min-h-[115vh]"
       role="region"
       aria-label={`${panels.length} focus areas at ${job.organization}. Scroll to reveal the next panel.`}
     >

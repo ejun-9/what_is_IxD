@@ -227,7 +227,7 @@ export function OnionPeelSection({ data }: { data: ProfileContent["onionPeel"] }
   }, [selectedSrc]);
 
   return (
-    <section className="relative overflow-x-hidden bg-[var(--paper)] pt-8 pb-12 md:pt-10 md:pb-16">
+    <section className="relative overflow-x-hidden bg-[var(--paper)] pt-6 pb-10 md:pt-8 md:pb-12">
       <div className="mx-auto max-w-content px-5 md:px-8">
         <SectionHeader partLabel={data.partLabel} title={data.title} />
         <p className="-mt-4 mb-3 max-w-prose text-base leading-[1.75] text-[var(--body)] md:-mt-6">
