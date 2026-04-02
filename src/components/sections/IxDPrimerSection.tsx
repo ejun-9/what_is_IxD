@@ -4,15 +4,13 @@ import { useState } from "react";
 import type { ProfileContent } from "@/content/profile";
 import { ExplainerSection } from "@/components/sections/ExplainerSection";
 import { DesignRealitySection } from "@/components/sections/DesignRealitySection";
-import { ProductDesignAiEraSection } from "@/components/sections/ProductDesignAiEraSection";
-import { PracticeSection } from "@/components/sections/PracticeSection";
-import { CaseStudyGate } from "@/components/sections/CaseStudyGate";
 
 type Props = {
   profile: ProfileContent;
 };
 
-export function StoryContinuation({ profile }: Props) {
+/** Optional explainer + myth/reality block, toggled from a control under Education. */
+export function IxDPrimerSection({ profile }: Props) {
   const [showIxD, setShowIxD] = useState(false);
 
   return (
@@ -45,10 +43,6 @@ export function StoryContinuation({ profile }: Props) {
           <DesignRealitySection data={profile.designReality} />
         </div>
       ) : null}
-
-      <ProductDesignAiEraSection data={profile.productDesignAiEra} />
-      <PracticeSection practice={profile.practice} />
-      <CaseStudyGate caseStudy={profile.caseStudy} />
     </>
   );
 }

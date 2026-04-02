@@ -90,7 +90,7 @@ export type ProfileContent = {
     images: { src: string; alt: string; caption?: string; /** Cutout PNG + sticker styling */ sticker?: boolean }[];
   };
   education: {
-    /** Optional kicker above the chapter title (not used for “Part N” numbering). */
+    /** Optional kicker above the chapter title. */
     partLabel?: string;
     chapterTitle: string;
     lead: string;
@@ -259,7 +259,6 @@ export const profile: ProfileContent = {
     ],
   },
   experience: {
-    partLabel: "Part two",
     chapterTitle: "Where I’ve worked",
     lead: "A path from physical healthcare hardware to platform tools and AI-first workflows—always with research, systems, and cross-functional partners in the loop.",
     timeline: [
@@ -343,7 +342,6 @@ export const profile: ProfileContent = {
     ],
   },
   interactionDesignExplainer: {
-    partLabel: "Part three",
     chapterTitle: "What interaction design is",
     intro:
       "Interaction design (IxD) is the craft of how people and systems meet: what happens when someone taps, types, waits, or gets stuck—and how we make that understandable, fair, and resilient. It’s not the same as “only visuals”; it’s the behavior layer that sits between strategy and engineering.",
@@ -367,7 +365,6 @@ export const profile: ProfileContent = {
     ],
   },
   designReality: {
-    partLabel: "Part four",
     chapterTitle: "What designers actually do",
     items: [
       {
@@ -388,7 +385,6 @@ export const profile: ProfileContent = {
     ],
   },
   productDesignAiEra: {
-    partLabel: "We are designing how people interact with the future",
     chapterTitle: "Product design in the age of AI",
     lead:
       "AI in the product changes the shape of the work—it adds inference, confidence, and failure modes that aren’t visible in a static mock. Being a product designer today still means owning clarity, flow, and trust; it also means partnering with engineers and data folks so what we ship matches how the system actually behaves, not only how we wish it behaved.",
