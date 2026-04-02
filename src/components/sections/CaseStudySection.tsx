@@ -74,7 +74,7 @@ export function CaseStudySection({ caseStudy }: { caseStudy: ProfileContent["cas
         </FadeIn>
       ) : null}
 
-      <div className="space-y-5 md:space-y-6">
+      <div className="space-y-12 md:space-y-20">
         {caseStudy.beats.map((beat, i) => {
           const isPlain = Boolean(beat.plain);
           const figures = beat.figures ?? [];
@@ -141,13 +141,13 @@ export function CaseStudySection({ caseStudy }: { caseStudy: ProfileContent["cas
                 </p>
               ) : null}
               {beat.learningColumns && beat.learningColumns.length > 0 ? (
-                <div className="mt-6 grid gap-6 md:mt-8 md:grid-cols-3 md:gap-6 lg:gap-8">
+                <div className="mt-6 space-y-10 md:mt-8 md:space-y-12">
                   {beat.learningColumns.map((col, idx) => (
-                    <div key={`${col.title}-${idx}`}>
-                      <h4 className="font-display text-base font-medium leading-snug text-[var(--ink)] md:text-[17px]">
+                    <div key={`${col.title}-${idx}`} className="max-w-prose">
+                      <h4 className="font-display text-lg font-medium leading-snug text-[var(--ink)] md:text-xl">
                         {col.title}
                       </h4>
-                      <p className="mt-3 text-sm leading-relaxed text-[var(--body)] md:text-[15px]">
+                      <p className="mt-3 text-base leading-relaxed text-[var(--body)] md:text-[17px] md:leading-relaxed">
                         {col.body}
                       </p>
                     </div>
