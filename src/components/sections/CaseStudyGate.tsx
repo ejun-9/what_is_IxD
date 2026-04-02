@@ -66,6 +66,11 @@ export function CaseStudyGate({ caseStudy }: Props) {
           >
             {caseStudy.chapterTitle}
           </h2>
+          {caseStudy.gateTeaser ? (
+            <p className="mt-4 max-w-prose text-base leading-relaxed text-[var(--body)]">
+              {caseStudy.gateTeaser}
+            </p>
+          ) : null}
         </header>
 
         <div className="mx-auto max-w-md rounded-xl border border-[var(--rule)] bg-[var(--wash)] p-6 shadow-[var(--shadow-soft)] md:p-8">

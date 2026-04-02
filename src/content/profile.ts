@@ -131,6 +131,8 @@ export type ProfileContent = {
   caseStudy: {
     partLabel: string;
     chapterTitle: string;
+    /** Shown only on the password gate—omitted after unlock (not part of the case study body). */
+    gateTeaser?: string;
     subtitle?: string;
     lead: string;
     leadHighlights?: CaseStudyLeadHighlight[];
