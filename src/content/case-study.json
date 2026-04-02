@@ -1,5 +1,5 @@
 {
-  "partLabel": "Part seven",
+  "partLabel": "Part five",
   "chapterTitle": "Cohort Building Experience",
   "gateTeaser": "A walkthrough of redesigning a healthcare cohort builder: who uses these tools, why the legacy flow was slow and opaque, and how clearer aggregates, customization, and later AI-assisted patterns changed the experience.",
   "lead": "Before jumping into interaction details, this case study starts with who uses cohort tools and what “cohort building” means in healthcare data—so the rest of the story has a clear anchor.",

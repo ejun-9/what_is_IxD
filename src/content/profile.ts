@@ -90,31 +90,32 @@ export type ProfileContent = {
     images: { src: string; alt: string; caption?: string; /** Cutout PNG + sticker styling */ sticker?: boolean }[];
   };
   education: {
-    partLabel: string;
+    /** Optional kicker above the chapter title (not used for “Part N” numbering). */
+    partLabel?: string;
     chapterTitle: string;
     lead: string;
     entries: EducationEntry[];
   };
   experience: {
-    partLabel: string;
+    partLabel?: string;
     chapterTitle: string;
     lead: string;
     timeline: TimelineEntry[];
   };
   interactionDesignExplainer: {
-    partLabel: string;
+    partLabel?: string;
     chapterTitle: string;
     intro: string;
     points: ExplainerPoint[];
   };
   designReality: {
-    partLabel: string;
+    partLabel?: string;
     chapterTitle: string;
     items: MythReality[];
   };
   /** Product design craft when AI is in the product—not model training, but experience and judgment. */
   productDesignAiEra: {
-    partLabel: string;
+    partLabel?: string;
     chapterTitle: string;
     lead: string;
     /** Optional second intro block (e.g. future-shaping, ethics of defaults). */
@@ -122,14 +123,14 @@ export type ProfileContent = {
     points: ExplainerPoint[];
   };
   practice: {
-    partLabel: string;
+    partLabel?: string;
     chapterTitle: string;
     lead: string;
     skillGroups: SkillGroup[];
     languages: string;
   };
   caseStudy: {
-    partLabel: string;
+    partLabel?: string;
     chapterTitle: string;
     /** Shown only on the password gate—omitted after unlock (not part of the case study body). */
     gateTeaser?: string;
@@ -236,7 +237,6 @@ export const profile: ProfileContent = {
     ],
   },
   education: {
-    partLabel: "Part one",
     chapterTitle: "How I got here",
     lead: "Industrial things first, then digital behavior and systems—two degrees that map how I think about products end to end.",
     entries: [
@@ -388,7 +388,7 @@ export const profile: ProfileContent = {
     ],
   },
   productDesignAiEra: {
-    partLabel: "Part five",
+    partLabel: "We are designing how people interact with the future",
     chapterTitle: "Product design in the age of AI",
     lead:
       "AI in the product changes the shape of the work—it adds inference, confidence, and failure modes that aren’t visible in a static mock. Being a product designer today still means owning clarity, flow, and trust; it also means partnering with engineers and data folks so what we ship matches how the system actually behaves, not only how we wish it behaved.",
@@ -414,7 +414,6 @@ export const profile: ProfileContent = {
     ],
   },
   practice: {
-    partLabel: "Part six",
     chapterTitle: "How I practice",
     lead: "Skills and tools I reach for most often—grounded in product work, research, and AI-era workflows.",
     skillGroups: [
@@ -466,7 +465,7 @@ export const profile: ProfileContent = {
     linkedInLabel: "linkedin.com/in/ejung96",
   },
   credits: {
-    body: "Single-page story built with Next.js and Framer Motion. Content reflects my resume; case study deck linked in Part seven; layout inspired by editorial scrollytelling.",
+    body: "Single-page story built with Next.js and Framer Motion. Content reflects my resume; case study deck at the end; layout inspired by editorial scrollytelling.",
     referenceUrl: "https://searchingforbirds.visualcinnamon.com/",
     referenceLabel: "Searching for Birds — Visual Cinnamon",
   },

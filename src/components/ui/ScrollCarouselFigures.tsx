@@ -44,7 +44,7 @@ export function ScrollCarouselFigures({ slides }: { slides: Slide[] }) {
     return (
       <div className="space-y-4">
         {slides.map((s) => (
-          <img key={s.src} src={s.src} alt={s.alt} className="w-full rounded-lg ring-1 ring-black/[0.06]" loading="lazy" />
+          <img key={s.src} src={s.src} alt={s.alt} className="w-full rounded-lg" loading="lazy" />
         ))}
       </div>
     );
@@ -58,7 +58,7 @@ export function ScrollCarouselFigures({ slides }: { slides: Slide[] }) {
             <img
               src={slides[0].src}
               alt={slides[0].alt}
-              className="block h-auto w-full rounded-lg shadow-sm ring-1 ring-black/[0.06]"
+              className="block h-auto w-full rounded-lg"
               loading="lazy"
             />
           </div>
@@ -97,7 +97,7 @@ export function ScrollCarouselFigures({ slides }: { slides: Slide[] }) {
                       <img
                         src={s.src}
                         alt={s.alt}
-                        className="block h-auto w-full rounded-md shadow-sm ring-1 ring-black/[0.06]"
+                        className="block h-auto w-full rounded-md"
                         loading="lazy"
                         decoding="async"
                       />

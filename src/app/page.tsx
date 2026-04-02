@@ -3,11 +3,7 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { OnionPeelSection } from "@/components/sections/OnionPeelSection";
 import { EducationSection } from "@/components/sections/EducationSection";
 import { ExperienceSection } from "@/components/sections/ExperienceSection";
-import { ExplainerSection } from "@/components/sections/ExplainerSection";
-import { DesignRealitySection } from "@/components/sections/DesignRealitySection";
-import { ProductDesignAiEraSection } from "@/components/sections/ProductDesignAiEraSection";
-import { PracticeSection } from "@/components/sections/PracticeSection";
-import { CaseStudyGate } from "@/components/sections/CaseStudyGate";
+import { StoryContinuation } from "@/components/sections/StoryContinuation";
 import { FooterSection } from "@/components/sections/FooterSection";
 import { CreditsSection } from "@/components/sections/CreditsSection";
 
@@ -19,11 +15,7 @@ export default function Home() {
         <OnionPeelSection data={profile.onionPeel} />
         <EducationSection education={profile.education} />
         <ExperienceSection experience={profile.experience} />
-        <ExplainerSection data={profile.interactionDesignExplainer} />
-        <DesignRealitySection data={profile.designReality} />
-        <ProductDesignAiEraSection data={profile.productDesignAiEra} />
-        <PracticeSection practice={profile.practice} />
-        <CaseStudyGate caseStudy={profile.caseStudy} />
+        <StoryContinuation profile={profile} />
         <FooterSection contact={profile.contact} />
       </main>
       <CreditsSection credits={profile.credits} />

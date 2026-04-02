@@ -38,7 +38,7 @@ export function ScrollZoomFigure({ src, alt, className = "" }: Props) {
             <img
               src={src}
               alt={alt}
-              className="block h-auto w-full rounded-lg shadow-sm ring-1 ring-black/[0.06]"
+              className="block h-auto w-full rounded-lg"
               loading="lazy"
               decoding="async"
             />

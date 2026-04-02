@@ -6,12 +6,15 @@ import { ScrollCarouselPanels } from "@/components/ui/ScrollCarouselPanels";
 
 export function ExplainerSection({
   data,
+  /** When nested under the IxD primer control, skip the top rule so it doesn’t stack under the button. */
+  hideTopBorder = false,
 }: {
   data: ProfileContent["interactionDesignExplainer"];
+  hideTopBorder?: boolean;
 }) {
   return (
     <ScrollZoomSection
-      className="border-t border-[var(--rule)] py-12 md:py-16"
+      className={`py-12 md:py-16 ${hideTopBorder ? "" : "border-t border-[var(--rule)]"}`}
       innerClassName="mx-auto max-w-content overflow-visible px-5 md:px-8"
       disableScale
     >
