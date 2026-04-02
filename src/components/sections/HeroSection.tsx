@@ -6,14 +6,14 @@ import { FadeIn } from "@/components/ui/FadeIn";
 export function HeroSection({ hero }: { hero: ProfileContent["hero"] }) {
   return (
     <ScrollZoomSection
-      className="pt-12 pb-20 md:pt-20 md:pb-28"
+      className="pt-10 pb-16 md:pt-16 md:pb-22"
       innerClassName="mx-auto max-w-content px-5 md:px-8"
       scaleRange={[0.9, 1, 0.98]}
     >
       <div
         className={
           hero.portraitSrc
-            ? "grid gap-12 lg:grid-cols-[1fr_minmax(200px,280px)] lg:gap-16 lg:items-start"
+            ? "grid gap-8 lg:grid-cols-[1fr_minmax(200px,280px)] lg:gap-12 lg:items-start"
             : ""
         }
       >

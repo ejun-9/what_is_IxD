@@ -148,7 +148,7 @@ export const profile: ProfileContent = {
     role: "Senior Product Designer",
     location: "Fullerton, CA",
     intro:
-      "I design AI and data tools that stay understandable—where transparency, progressive disclosure, and trust patterns matter as much as the interface itself. This page is a short scroll through who I am, what interaction design means, and what that looks like in practice.",
+      "I’m a product designer focused on how people understand complex software—data-heavy tools, multi-step workflows, and AI products. My job isn’t the model; it’s the experience around it—where transparency, progressive disclosure, and trust patterns matter as much as the interface. This page is a short scroll through who I am, what interaction design means, and what that looks like in practice.",
     portraitSrc: null,
     portraitAlt: "Portrait of Eun Ji Jung",
   },
@@ -339,7 +339,7 @@ export const profile: ProfileContent = {
     points: [
       {
         title: "Clarity under complexity",
-        body: "In health and AI, the backend is messy. IxD is how we sequence information, set expectations, and expose the right detail at the right moment—so experts aren’t overwhelmed and newcomers aren’t lost.",
+        body: "Behind most products the stack is messy—and with AI in the loop, even more so. IxD is how we sequence information, set expectations, and expose the right detail at the right moment—so experts aren’t overwhelmed and newcomers aren’t lost.",
       },
       {
         title: "Flows, not just screens",
@@ -347,7 +347,7 @@ export const profile: ProfileContent = {
       },
       {
         title: "Trust and transparency",
-        body: "Especially with AI, people need to see what the system did (or guessed), what they can change, and what happens next. That’s interaction and content design working together—patterns like progressive disclosure and graceful failure are part of the job.",
+        body: "When software infers, recommends, or automates, people need to see what happened, what they can change, and what comes next. That’s interaction and content design working together—patterns like progressive disclosure and graceful failure are part of the job.",
       },
       {
         title: "Systems and reuse",
@@ -372,7 +372,7 @@ export const profile: ProfileContent = {
       {
         myth: "“The designer hands off to dev and walks away.”",
         reality:
-          "The best outcomes come from tight loops with engineering and data science—especially for AI and analytics, where the design has to match how the model and data actually behave.",
+          "The best outcomes come from tight loops with engineering and partners in research and data—especially when the product is AI- or data-heavy, where the experience has to line up with how the system actually behaves.",
       },
     ],
   },

@@ -18,7 +18,7 @@ export function CaseStudySection({ caseStudy }: { caseStudy: ProfileContent["cas
 
   return (
     <ScrollZoomSection
-      className="border-t border-[var(--rule)] py-14 md:py-20"
+      className="border-t border-[var(--rule)] py-12 md:py-16"
       innerClassName="mx-auto max-w-content px-5 md:px-8"
       disableScale
     >
@@ -31,7 +31,7 @@ export function CaseStudySection({ caseStudy }: { caseStudy: ProfileContent["cas
         <div
           className={
             img
-              ? "mb-8 grid gap-8 lg:grid-cols-[1fr_minmax(240px,320px)] lg:items-start lg:gap-10"
+              ? "mb-8 grid gap-6 lg:grid-cols-[1fr_minmax(240px,320px)] lg:items-start lg:gap-8"
               : "mb-8"
           }
         >
@@ -68,13 +68,13 @@ export function CaseStudySection({ caseStudy }: { caseStudy: ProfileContent["cas
       </FadeIn>
       {caseStudy.subtitle ? (
         <FadeIn>
-          <p className="mb-12 text-sm font-medium tracking-widest text-[var(--muted)]">
+          <p className="mb-8 text-sm font-medium tracking-widest text-[var(--muted)]">
             {caseStudy.subtitle}
           </p>
         </FadeIn>
       ) : null}
 
-      <div className="space-y-6 md:space-y-8">
+      <div className="space-y-5 md:space-y-6">
         {caseStudy.beats.map((beat, i) => {
           const isPlain = Boolean(beat.plain);
           const figures = beat.figures ?? [];
@@ -141,7 +141,7 @@ export function CaseStudySection({ caseStudy }: { caseStudy: ProfileContent["cas
                 </p>
               ) : null}
               {beat.learningColumns && beat.learningColumns.length > 0 ? (
-                <div className="mt-8 grid gap-10 md:mt-10 md:grid-cols-3 md:gap-8 lg:gap-10">
+                <div className="mt-6 grid gap-6 md:mt-8 md:grid-cols-3 md:gap-6 lg:gap-8">
                   {beat.learningColumns.map((col, idx) => (
                     <div key={`${col.title}-${idx}`}>
                       <h4 className="font-display text-base font-medium leading-snug text-[var(--ink)] md:text-[17px]">

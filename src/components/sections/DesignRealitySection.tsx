@@ -6,7 +6,7 @@ import { ScrollCarouselPanels } from "@/components/ui/ScrollCarouselPanels";
 export function DesignRealitySection({ data }: { data: ProfileContent["designReality"] }) {
   return (
     <ScrollZoomSection
-      className="border-t border-[var(--rule)] py-20 md:py-28"
+      className="border-t border-[var(--rule)] py-16 md:py-22"
       innerClassName="mx-auto max-w-content px-5 md:px-8"
       disableScale
     >
@@ -18,12 +18,20 @@ export function DesignRealitySection({ data }: { data: ProfileContent["designRea
             className="grid gap-4 rounded-xl border border-[var(--rule)] bg-[var(--paper)] p-6 md:grid-cols-2 md:gap-8 md:p-8"
           >
             <div>
-              <p className="text-xs font-medium uppercase tracking-widest text-[var(--muted)]">Common take</p>
-              <p className="mt-2 font-display text-lg italic text-[var(--ink-soft)]">{row.myth}</p>
+              <p className="text-[0.7rem] font-medium uppercase tracking-[0.14em] text-[var(--muted)] sm:text-sm">
+                Common take
+              </p>
+              <p className="mt-2.5 font-display text-xl italic leading-snug text-[var(--ink-soft)] md:text-[1.35rem] md:leading-snug">
+                {row.myth}
+              </p>
             </div>
             <div>
-              <p className="text-xs font-medium uppercase tracking-widest text-[var(--accent)]">Closer to the work</p>
-              <p className="mt-2 leading-relaxed text-[var(--body)]">{row.reality}</p>
+              <p className="text-[0.7rem] font-medium uppercase tracking-[0.14em] text-[var(--accent)] sm:text-sm">
+                Closer to the work
+              </p>
+              <p className="mt-2.5 text-base leading-[1.7] text-[var(--body)] md:text-lg md:leading-relaxed">
+                {row.reality}
+              </p>
             </div>
           </div>
         ))}

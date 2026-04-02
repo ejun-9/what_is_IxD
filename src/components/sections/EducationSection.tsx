@@ -7,21 +7,21 @@ import { FadeIn } from "@/components/ui/FadeIn";
 export function EducationSection({ education }: { education: ProfileContent["education"] }) {
   return (
     <ScrollZoomSection
-      className="border-t border-[var(--rule)] py-20 md:py-28"
+      className="border-t border-[var(--rule)] py-16 md:py-22"
       innerClassName="mx-auto max-w-content px-5 md:px-8"
       scaleRange={[0.96, 1, 0.98]}
     >
       <SectionHeader partLabel={education.partLabel} title={education.chapterTitle} />
       <FadeIn>
-        <p className="mb-12 max-w-prose text-lg leading-relaxed text-[var(--body)]">{education.lead}</p>
+        <p className="mb-8 max-w-prose text-lg leading-relaxed text-[var(--body)]">{education.lead}</p>
       </FadeIn>
-      <ul className="space-y-14 md:space-y-16">
+      <ul className="space-y-10 md:space-y-12">
         {education.entries.map((e) => (
           <FadeIn key={`${e.degree}-${e.school}`}>
             <li
               className={
                 e.imageSrc
-                  ? "grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(220px,320px)] md:items-start md:gap-10"
+                  ? "grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(220px,320px)] md:items-start md:gap-8"
                   : ""
               }
             >

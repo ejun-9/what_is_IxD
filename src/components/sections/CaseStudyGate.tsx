@@ -54,11 +54,11 @@ export function CaseStudyGate({ caseStudy }: Props) {
 
   return (
     <section
-      className="border-t border-[var(--rule)] py-20 md:py-28"
+      className="border-t border-[var(--rule)] py-16 md:py-22"
       aria-labelledby="case-study-gate-heading"
     >
       <div className="mx-auto max-w-content px-5 md:px-8">
-        <header className="mb-10 md:mb-14">
+        <header className="mb-7 md:mb-10">
           <p className="mb-3 text-xs font-medium tracking-[0.12em] text-[var(--muted)]">{caseStudy.partLabel}</p>
           <h2
             id="case-study-gate-heading"

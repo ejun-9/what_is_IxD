@@ -5,7 +5,7 @@ import { FadeIn } from "@/components/ui/FadeIn";
 export function FooterSection({ contact }: { contact: ProfileContent["contact"] }) {
   return (
     <ScrollZoomSection
-      className="border-t border-[var(--rule)] py-20 md:py-24"
+      className="border-t border-[var(--rule)] py-16 md:py-20"
       innerClassName="mx-auto max-w-content px-5 md:px-8"
       scaleRange={[0.98, 1, 1]}
     >
