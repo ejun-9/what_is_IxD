@@ -5,18 +5,20 @@ import { useRef, type ReactNode } from "react";
 
 type ScrollZoomSectionProps = {
   children: ReactNode;
+  id?: string;
   className?: string;
   /** Inner wrapper class (e.g. max-width column) */
   innerClassName?: string;
   /** Scale keyframes: start, peak (center of viewport), end */
   scaleRange?: [number, number, number];
   transformOrigin?: string;
-  /** No transform on inner wrapper — required for nested `position: sticky` (e.g. scroll-pinned carousels). */
+  /** No transform on inner wrapper; required for nested `position: sticky` (e.g. scroll-pinned carousels). */
   disableScale?: boolean;
 };
 
 function ScrollZoomSectionScaled({
   children,
+  id,
   className = "",
   innerClassName = "",
   scaleRange = [0.94, 1, 0.97],
@@ -36,7 +38,7 @@ function ScrollZoomSectionScaled({
   );
 
   return (
-    <section ref={ref} className={`relative ${className}`}>
+    <section ref={ref} id={id} className={`relative ${className}`}>
       <motion.div
         className={`will-change-transform ${innerClassName}`}
         style={{ scale, transformOrigin }}
@@ -49,6 +51,7 @@ function ScrollZoomSectionScaled({
 
 export function ScrollZoomSection({
   children,
+  id,
   className = "",
   innerClassName = "",
   scaleRange = [0.94, 1, 0.97],
@@ -57,7 +60,7 @@ export function ScrollZoomSection({
 }: ScrollZoomSectionProps) {
   if (disableScale) {
     return (
-      <section className={`relative ${className}`}>
+      <section id={id} className={`relative ${className}`}>
         <div className={innerClassName}>{children}</div>
       </section>
     );
@@ -65,6 +68,7 @@ export function ScrollZoomSection({
 
   return (
     <ScrollZoomSectionScaled
+      id={id}
       className={className}
       innerClassName={innerClassName}
       scaleRange={scaleRange}

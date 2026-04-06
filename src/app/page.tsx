@@ -6,10 +6,9 @@ import { ExperienceSection } from "@/components/sections/ExperienceSection";
 import { IxDPrimerSection } from "@/components/sections/IxDPrimerSection";
 import { ProductDesignAiEraSection } from "@/components/sections/ProductDesignAiEraSection";
 import { PracticeSection } from "@/components/sections/PracticeSection";
-import { CaseStudyGate } from "@/components/sections/CaseStudyGate";
+import { CohortCaseStudySection } from "@/components/sections/CohortCaseStudySection";
+import { LuneCaseStudySection } from "@/components/sections/LuneCaseStudySection";
 import { FooterSection } from "@/components/sections/FooterSection";
-import { CreditsSection } from "@/components/sections/CreditsSection";
-
 export default function Home() {
   return (
     <div className="min-h-full">
@@ -21,10 +20,10 @@ export default function Home() {
         <ExperienceSection experience={profile.experience} />
         <ProductDesignAiEraSection data={profile.productDesignAiEra} />
         <PracticeSection practice={profile.practice} />
-        <CaseStudyGate caseStudy={profile.caseStudy} />
-        <FooterSection contact={profile.contact} />
+        <CohortCaseStudySection caseStudy={profile.caseStudy} />
+        <LuneCaseStudySection data={profile.luneCaseStudy} />
       </main>
-      <CreditsSection credits={profile.credits} />
+      <FooterSection contact={profile.contact} />
     </div>
   );
 }

@@ -14,11 +14,11 @@ const serif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Eun Ji Jung — Interaction design & product",
+  title: "Eun Ji Jung · Interaction design & product",
   description:
     "Senior product designer in health tech. A scroll through interaction design, what designers do, and how I practice.",
   openGraph: {
-    title: "Eun Ji Jung — Interaction design & product",
+    title: "Eun Ji Jung · Interaction design & product",
     description:
       "Senior product designer in health tech. Interaction design, AI products, and design systems.",
     type: "website",

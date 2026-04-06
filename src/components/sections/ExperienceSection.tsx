@@ -30,7 +30,7 @@ export function ExperienceSection({ experience }: { experience: ProfileContent["
                 </div>
                 <p className="mt-1 text-[var(--ink-soft)]">{job.organization}</p>
                 <p className="mt-1 text-sm text-[var(--muted)]">
-                  {job.start} – {job.end}
+                  {job.start} to {job.end}
                   {job.location ? ` · ${job.location}` : ""}
                 </p>
                 {hasCarousel ? (

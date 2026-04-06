@@ -1,4 +1,5 @@
 import caseStudyData from "./case-study.json";
+import luneCaseStudyData from "./lune-case-study.json";
 
 export type CarouselPanel = {
   title: string;
@@ -28,7 +29,6 @@ export type EducationEntry = {
   imageAlt?: string;
 };
 
-export type ExplainerPoint = { title: string; body: string };
 export type MythReality = { myth: string; reality: string };
 export type SkillGroup = { label: string; items: string[] };
 
@@ -40,21 +40,45 @@ export type CaseStudyPrototypeCta = {
   href?: string;
 };
 
+export type CaseStudyIconKey =
+  | "assumptions"
+  | "documentation"
+  | "confidence"
+  | "insight"
+  | "partnership"
+  | "activation"
+  | "workflow"
+  | "sparkles";
+
+export type ExplainerPoint = { title: string; body: string; icon?: CaseStudyIconKey };
+
+/** Intro copy with optional per-span emphasis (see ProductDesignAiEraSection). */
+export type TextSegment = { text: string; highlight?: "mark" | "strong" };
+
 export type CaseStudyLearningColumn = {
   title: string;
   body: string;
+  /** Decorative icon beside the learning title (Learnings section). */
+  icon?: CaseStudyIconKey;
 };
 
 export type CaseStudyBeat = {
   kicker?: string;
   title: string;
   body: string;
+  /** Decorative icon beside the beat title (omit when using learning columns). */
+  icon?: CaseStudyIconKey;
   /** Three-up takeaways (e.g. Learnings). When set, render a column grid below the title. */
   learningColumns?: CaseStudyLearningColumn[];
-  /** No card border — use for hero-style problem slides. */
+  /** No card border; use for hero-style problem slides. */
   plain?: boolean;
   /** SVG paths under public/ with scroll-zoom. */
-  figures?: { src: string; alt: string }[];
+  figures?: {
+    src: string;
+    alt: string;
+    /** Paired with the next figure: click first image to slide in the next + this caption. */
+    clickRevealCaption?: string;
+  }[];
   /** When true, `figures` use a horizontal scroll carousel (slide + zoom) instead of per-image zoom. */
   figuresCarousel?: boolean;
   prototypeCta?: CaseStudyPrototypeCta;
@@ -70,6 +94,26 @@ export type CaseStudyLeadHighlight = {
 export type CaseStudyLeadImage = {
   src: string;
   alt: string;
+};
+
+/** Public narrative: learnings only (e.g. Lune), not a full branding case study. */
+export type LuneCaseStudyLearning = { title: string; body: string };
+
+export type LuneCaseStudy = {
+  chapterTitle: string;
+  eyebrow?: string;
+  /** Short preview only; full narrative is behind the expand control. */
+  teaser: string;
+  lead: string;
+  scopeNote?: string;
+  framing: { title: string; body: string };
+  comparison: {
+    aiColumnTitle: string;
+    aiBody: string;
+    traditionalColumnTitle: string;
+    traditionalBody: string;
+  };
+  learnings: LuneCaseStudyLearning[];
 };
 
 export type ProfileContent = {
@@ -113,13 +157,13 @@ export type ProfileContent = {
     chapterTitle: string;
     items: MythReality[];
   };
-  /** Product design craft when AI is in the product—not model training, but experience and judgment. */
+  /** Product design craft when AI is in the product, not model training, but experience and judgment. */
   productDesignAiEra: {
     partLabel?: string;
     chapterTitle: string;
-    lead: string;
+    lead: TextSegment[];
     /** Optional second intro block (e.g. future-shaping, ethics of defaults). */
-    leadSecondary?: string;
+    leadSecondary?: TextSegment[];
     points: ExplainerPoint[];
   };
   practice: {
@@ -132,7 +176,7 @@ export type ProfileContent = {
   caseStudy: {
     partLabel?: string;
     chapterTitle: string;
-    /** Shown only on the password gate—omitted after unlock (not part of the case study body). */
+    /** Shown only on the password gate; omitted after unlock (not part of the case study body). */
     gateTeaser?: string;
     subtitle?: string;
     lead: string;
@@ -140,6 +184,8 @@ export type ProfileContent = {
     leadImage?: CaseStudyLeadImage | null;
     beats: CaseStudyBeat[];
   };
+  /** Second case study: public, learnings-focused (no password). */
+  luneCaseStudy: LuneCaseStudy;
   contact: {
     phone: string;
     portfolioUrl: string;
@@ -160,7 +206,7 @@ export const profile: ProfileContent = {
     role: "Senior Product Designer",
     location: "Fullerton, CA",
     intro:
-      "I’m a product designer focused on how people understand complex software—data-heavy tools, multi-step workflows, and AI products. My job isn’t the model; it’s the experience around it—where transparency, progressive disclosure, and trust patterns matter as much as the interface. This page is a short scroll through who I am, what interaction design means, and what that looks like in practice.",
+      "I’m a product designer focused on how people understand complex software: data-heavy tools, multi-step workflows, and AI products. My job isn’t the model; it’s the experience around it, where transparency, progressive disclosure, and trust patterns matter as much as the interface. This page is a short scroll through who I am, what interaction design means, and what that looks like in practice.",
     portraitSrc: null,
     portraitAlt: "Portrait of Eun Ji Jung",
   },
@@ -168,7 +214,7 @@ export const profile: ProfileContent = {
     partLabel: "But first let’s make a collage… because why not?",
     title: "Get to know me",
     lead:
-      "These are images of things that I have baked, crochet, or my dog being a fashion icon. Drag any photo and move it around—let’s make a collage together (cause I like making collages too haha).",
+      "These are images of things that I have baked, crochet, or my dog being a fashion icon. Drag any photo and move it around, and let’s make a collage together (cause I like making collages too haha).",
     hint: "Click and drag inside the frame to arrange your collage.",
     images: [
       {
@@ -238,7 +284,7 @@ export const profile: ProfileContent = {
   },
   education: {
     chapterTitle: "How I got here",
-    lead: "Industrial things first, then digital behavior and systems—two degrees that map how I think about products end to end.",
+    lead: "Industrial things first, then digital behavior and systems, two degrees that map how I think about products end to end.",
     entries: [
       {
         degree: "MDes, Interaction Design",
@@ -260,7 +306,7 @@ export const profile: ProfileContent = {
   },
   experience: {
     chapterTitle: "Where I’ve worked",
-    lead: "A path from physical healthcare hardware to platform tools and AI-first workflows—always with research, systems, and cross-functional partners in the loop.",
+    lead: "A path from physical healthcare hardware to platform tools and AI-first workflows, always with research, systems, and cross-functional partners in the loop.",
     timeline: [
       {
         title: "Product Designer III",
@@ -273,7 +319,7 @@ export const profile: ProfileContent = {
         carouselPanels: [
           {
             focusLabel: "AI products",
-            title: "Product Designer III — AI Products",
+            title: "Product Designer III, AI Products",
             highlights: [
               "Led design for the AI-First Cohort Builder (natural language), cutting new-user activation from months to about a minute for key flows.",
               "Designed for mixed expertise: transparency, progressive disclosure, and graceful failure when AI-generated logic needs human judgment.",
@@ -283,9 +329,9 @@ export const profile: ProfileContent = {
           },
           {
             focusLabel: "Platform & data tools",
-            title: "Product Designer III — Platform & Data Tools",
+            title: "Product Designer III, Platform & Data Tools",
             highlights: [
-              "Owned end-to-end design for MapLab Cohort Builder (700+ active users)—a strategic re-architecture, not just a reskin.",
+              "Owned end-to-end design for MapLab Cohort Builder (700+ active users), a strategic re-architecture, not just a reskin.",
               "Turned cohort definitions into reusable platform assets to unlock downstream analytics.",
               "Shipped aggregate previews, reusable codesets, and a Figma component library for consistent patterns across the suite.",
               "Research and usability with healthcare analysts; workshops and design critiques with partners.",
@@ -294,7 +340,7 @@ export const profile: ProfileContent = {
         ],
       },
       {
-        title: "Design Consultant — PRIDENet",
+        title: "Design Consultant, PRIDENet",
         organization: "CCA Social Lab",
         location: "San Francisco, CA",
         start: "May 2021",
@@ -307,7 +353,7 @@ export const profile: ProfileContent = {
       },
       {
         title: "Design Consultant",
-        organization: "The San Francisco School — CCA Social Lab",
+        organization: "The San Francisco School, CCA Social Lab",
         location: "San Francisco, CA",
         start: "Jan 2021",
         end: "May 2021",
@@ -334,7 +380,7 @@ export const profile: ProfileContent = {
         start: "Dec 2018",
         end: "Aug 2019",
         highlights: [
-          "End-to-end design of a cervical cancer screening device—from research and prototyping through 3D modeling, CMF, and manufacturing coordination.",
+          "End-to-end design of a cervical cancer screening device, from research and prototyping through 3D modeling, CMF, and manufacturing coordination.",
           "Synthesized clinical insights from field testing into ergonomic and workflow requirements.",
           "Project-managed across engineering and manufacturing under real constraints.",
         ],
@@ -344,11 +390,11 @@ export const profile: ProfileContent = {
   interactionDesignExplainer: {
     chapterTitle: "What interaction design is",
     intro:
-      "Interaction design (IxD) is the craft of how people and systems meet: what happens when someone taps, types, waits, or gets stuck—and how we make that understandable, fair, and resilient. It’s not the same as “only visuals”; it’s the behavior layer that sits between strategy and engineering.",
+      "Interaction design (IxD) is the craft of how people and systems meet: what happens when someone taps, types, waits, or gets stuck, and how we make that understandable, fair, and resilient. It’s not the same as “only visuals”; it’s the behavior layer that sits between strategy and engineering.",
     points: [
       {
         title: "Clarity under complexity",
-        body: "Behind most products the stack is messy—and with AI in the loop, even more so. IxD is how we sequence information, set expectations, and expose the right detail at the right moment—so experts aren’t overwhelmed and newcomers aren’t lost.",
+        body: "Behind most products the stack is messy, and with AI in the loop, even more so. IxD is how we sequence information, set expectations, and expose the right detail at the right moment, so experts aren’t overwhelmed and newcomers aren’t lost.",
       },
       {
         title: "Flows, not just screens",
@@ -356,11 +402,11 @@ export const profile: ProfileContent = {
       },
       {
         title: "Trust and transparency",
-        body: "When software infers, recommends, or automates, people need to see what happened, what they can change, and what comes next. That’s interaction and content design working together—patterns like progressive disclosure and graceful failure are part of the job.",
+        body: "When software infers, recommends, or automates, people need to see what happened, what they can change, and what comes next. That’s interaction and content design working together: patterns like progressive disclosure and graceful failure are part of the job.",
       },
       {
         title: "Systems and reuse",
-        body: "Design systems aren’t decoration kits. They encode how decisions get made once so teams don’t reinvent patterns—freeing energy for harder product problems.",
+        body: "Design systems aren’t decoration kits. They encode how decisions get made once so teams don’t reinvent patterns, freeing energy for harder product problems.",
       },
     ],
   },
@@ -370,48 +416,72 @@ export const profile: ProfileContent = {
       {
         myth: "“Design is making it pretty.”",
         reality:
-          "A huge slice of the job is problem framing, tradeoffs, and alignment—turning ambiguity into something buildable, then iterating with research and engineering.",
+          "A huge slice of the job is problem framing, tradeoffs, and alignment: turning ambiguity into something buildable, then iterating with research and engineering.",
       },
       {
         myth: "“UX is wireframes.”",
         reality:
-          "Wireframes are one output. The work includes research synthesis, journey mapping, prototyping, usability, and crit—often owning the story of why a direction is right.",
+          "Wireframes are one output. The work includes research synthesis, journey mapping, prototyping, usability, and crit, often owning the story of why a direction is right.",
       },
       {
         myth: "“The designer hands off to dev and walks away.”",
         reality:
-          "The best outcomes come from tight loops with engineering and partners in research and data—especially when the product is AI- or data-heavy, where the experience has to line up with how the system actually behaves.",
+          "The best outcomes come from tight loops with engineering and partners in research and data, especially when the product is AI- or data-heavy, where the experience has to line up with how the system actually behaves.",
       },
     ],
   },
   productDesignAiEra: {
     chapterTitle: "Product design in the age of AI",
-    lead:
-      "AI in the product changes the shape of the work—it adds inference, confidence, and failure modes that aren’t visible in a static mock. Being a product designer today still means owning clarity, flow, and trust; it also means partnering with engineers and data folks so what we ship matches how the system actually behaves, not only how we wish it behaved.",
-    leadSecondary:
-      "We’re also in the business of designing and shaping the future in small but real ways: what gets automated first, what stays slow on purpose, who benefits when the system is wrong, and what “normal” looks like once a workflow sticks. The interfaces and patterns we ship don’t just solve today—they train habits and expectations for tomorrow.",
+    lead: [
+      { text: "AI in the product changes the shape of the work: it adds " },
+      {
+        text: "inference, confidence, and failure modes that aren’t visible in a static mock",
+        highlight: "mark",
+      },
+      { text: ". Being a product designer today still means owning " },
+      { text: "clarity, flow, and trust", highlight: "strong" },
+      {
+        text: "; it also means partnering with engineers and data folks so what we ship matches ",
+      },
+      { text: "how the system actually behaves", highlight: "mark" },
+      { text: ", not only how we wish it behaved." },
+    ],
+    leadSecondary: [
+      { text: "We’re also in the business of designing and shaping the future in small but real ways: " },
+      {
+        text: "what gets automated first, what stays slow on purpose, who benefits when the system is wrong, and what “normal” looks like once a workflow sticks",
+        highlight: "mark",
+      },
+      { text: ". The interfaces and patterns we ship don’t just solve today; they " },
+      { text: "train habits and expectations for tomorrow", highlight: "strong" },
+      { text: "." },
+    ],
     points: [
       {
+        icon: "insight",
         title: "Experience over the model",
-        body: "Most of us aren’t training models—we’re designing what people see, do, and understand when a model is in the loop: empty states, loading, corrections, and what happens when the system is wrong. That’s the product surface.",
+        body: "Most of us aren’t training models; we’re designing what people see, do, and understand when a model is in the loop: empty states, loading, corrections, and what happens when the system is wrong. That’s the product surface.",
       },
       {
+        icon: "workflow",
         title: "Judgment and sequencing",
         body: "The craft is still sequencing information, setting expectations, and choosing what to automate vs. leave explicit. AI can compress steps; the design job is to make sure that compression doesn’t erase accountability.",
       },
       {
+        icon: "partnership",
         title: "Same partnership, sharper loops",
-        body: "Tight collaboration with engineering (and research, when you have it) isn’t new—it’s just higher stakes when behavior can drift with data and prompts. Design helps the team align on what “good” looks like for real users, not only for demos.",
+        body: "Tight collaboration with engineering (and research, when you have it) isn’t new; it’s just higher stakes when behavior can drift with data and prompts. Design helps the team align on what “good” looks like for real users, not only for demos.",
       },
       {
+        icon: "confidence",
         title: "What stays constant",
-        body: "Tools and buzzwords will keep changing. What doesn’t is advocating for understandable, fair, and resilient experiences—whether the backend is rules, ML, or something in between.",
+        body: "Tools and buzzwords will keep changing. What doesn’t is advocating for understandable, fair, and resilient experiences, whether the backend is rules, ML, or something in between.",
       },
     ],
   },
   practice: {
     chapterTitle: "How I practice",
-    lead: "Skills and tools I reach for most often—grounded in product work, research, and AI-era workflows.",
+    lead: "Skills and tools I reach for most often, grounded in product work, research, and AI-era workflows.",
     skillGroups: [
       {
         label: "Core craft",
@@ -450,9 +520,10 @@ export const profile: ProfileContent = {
         items: ["Jira", "Confluence", "Notion"],
       },
     ],
-    languages: "English — fluent · Korean — fluent · Spanish — native",
+    languages: "English: fluent · Korean: fluent · Spanish: native",
   },
   caseStudy: caseStudyData as ProfileContent["caseStudy"],
+  luneCaseStudy: luneCaseStudyData as LuneCaseStudy,
   contact: {
     phone: "+1 (217) 778-7540",
     portfolioUrl: "https://eunji.design",
@@ -463,6 +534,6 @@ export const profile: ProfileContent = {
   credits: {
     body: "Single-page story built with Next.js and Framer Motion. Content reflects my resume; case study deck at the end; layout inspired by editorial scrollytelling.",
     referenceUrl: "https://searchingforbirds.visualcinnamon.com/",
-    referenceLabel: "Searching for Birds — Visual Cinnamon",
+    referenceLabel: "Searching for Birds · Visual Cinnamon",
   },
 };

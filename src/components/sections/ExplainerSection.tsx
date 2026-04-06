@@ -26,7 +26,7 @@ export function ExplainerSection({
         {data.points.map((p, i) => (
           <article
             key={p.title}
-            className="rounded-xl bg-[var(--wash)] p-6 shadow-sm ring-1 ring-black/[0.04] md:p-8 md:pl-10"
+            className="rounded-xl bg-[var(--wash)] p-4 shadow-sm ring-1 ring-black/[0.04] md:p-5 md:pl-8"
           >
             <p className="mb-2 text-xs font-medium uppercase tracking-widest text-[var(--muted)]">
               {String(i + 1).padStart(2, "0")}

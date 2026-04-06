@@ -15,7 +15,7 @@ export function DesignRealitySection({ data }: { data: ProfileContent["designRea
         {data.items.map((row) => (
           <div
             key={row.myth}
-            className="grid gap-4 rounded-xl border border-[var(--rule)] bg-[var(--paper)] p-6 md:grid-cols-2 md:gap-8 md:p-8"
+            className="grid gap-4 rounded-xl border border-[var(--rule)] bg-[var(--paper)] p-4 md:grid-cols-2 md:gap-8 md:p-5"
           >
             <div>
               <p className="text-[0.7rem] font-medium uppercase tracking-[0.14em] text-[var(--muted)] sm:text-sm">

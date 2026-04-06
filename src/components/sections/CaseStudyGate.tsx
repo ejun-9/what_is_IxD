@@ -3,43 +3,40 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import type { ProfileContent } from "@/content/profile";
+import {
+  getExpectedCaseStudyPassword,
+  persistCaseStudyUnlocked,
+  readCaseStudyUnlockedFromSession,
+} from "@/lib/case-study-unlock";
 
 const CaseStudySection = dynamic(
   () => import("./CaseStudySection").then((m) => m.CaseStudySection),
   { ssr: false, loading: () => null },
 );
 
-const STORAGE_KEY = "case-study-unlocked-v1";
-
-function expectedPassword(): string {
-  return process.env.NEXT_PUBLIC_CASE_STUDY_PASSWORD ?? "lucaiscute";
-}
-
 type Props = {
   caseStudy: ProfileContent["caseStudy"];
+  /** When true, locked state omits title/teaser (e.g. preview block above already showed them). */
+  suppressLockedIntro?: boolean;
+  /** When false with suppressLockedIntro, locked form is hidden until user requests it (e.g. preview “open” click). */
+  revealForm?: boolean;
 };
 
-export function CaseStudyGate({ caseStudy }: Props) {
+export function CaseStudyGate({ caseStudy, suppressLockedIntro = false, revealForm = true }: Props) {
   const [unlocked, setUnlocked] = useState(false);
+  const [sessionChecked, setSessionChecked] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    try {
-      if (sessionStorage.getItem(STORAGE_KEY) === "1") setUnlocked(true);
-    } catch {
-      /* private mode */
-    }
+    if (readCaseStudyUnlockedFromSession()) setUnlocked(true);
+    setSessionChecked(true);
   }, []);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (password.trim() === expectedPassword()) {
-      try {
-        sessionStorage.setItem(STORAGE_KEY, "1");
-      } catch {
-        /* ignore */
-      }
+    if (password.trim() === getExpectedCaseStudyPassword()) {
+      persistCaseStudyUnlocked();
       setUnlocked(true);
       setError(false);
       setPassword("");
@@ -52,31 +49,50 @@ export function CaseStudyGate({ caseStudy }: Props) {
     return <CaseStudySection caseStudy={caseStudy} />;
   }
 
+  if (!sessionChecked) {
+    return null;
+  }
+
+  if (suppressLockedIntro && !revealForm) {
+    return null;
+  }
+
   return (
     <section
+      id="cohort-case-study"
       className="border-t border-[var(--rule)] py-12 md:py-16"
-      aria-labelledby="case-study-gate-heading"
+      aria-labelledby={suppressLockedIntro ? "case-study-gate-form-title" : "case-study-gate-heading"}
     >
       <div className="mx-auto max-w-content px-5 md:px-8">
-        <header className="mb-5 md:mb-7">
-          {caseStudy.partLabel ? (
-            <p className="mb-3 text-xs font-medium tracking-[0.12em] text-[var(--muted)]">{caseStudy.partLabel}</p>
-          ) : null}
-          <h2
-            id="case-study-gate-heading"
-            className="font-display text-[clamp(2rem,5vw,3.25rem)] font-medium leading-[1.08] tracking-tight text-[var(--ink)]"
-          >
-            {caseStudy.chapterTitle}
-          </h2>
-          {caseStudy.gateTeaser ? (
-            <p className="mt-4 max-w-prose text-base leading-relaxed text-[var(--body)]">
-              {caseStudy.gateTeaser}
-            </p>
-          ) : null}
-        </header>
+        {suppressLockedIntro ? null : (
+          <header className="mb-5 md:mb-7">
+            {caseStudy.partLabel ? (
+              <p className="mb-3 text-xs font-medium tracking-[0.12em] text-[var(--muted)]">{caseStudy.partLabel}</p>
+            ) : null}
+            <h2
+              id="case-study-gate-heading"
+              className="font-display text-[clamp(2rem,5vw,3.25rem)] font-medium leading-[1.08] tracking-tight text-[var(--ink)]"
+            >
+              {caseStudy.chapterTitle}
+            </h2>
+            {caseStudy.gateTeaser ? (
+              <p className="mt-4 max-w-prose text-base leading-relaxed text-[var(--body)]">
+                {caseStudy.gateTeaser}
+              </p>
+            ) : null}
+          </header>
+        )}
 
-        <div className="mx-auto max-w-md rounded-xl border border-[var(--rule)] bg-[var(--wash)] p-6 shadow-[var(--shadow-soft)] md:p-8">
-          <p className="text-sm leading-relaxed text-[var(--body)]">
+        <div className="mx-auto max-w-md rounded-xl border border-[var(--rule)] bg-[var(--wash)] p-4 shadow-[var(--shadow-soft)] md:p-5">
+          {suppressLockedIntro ? (
+            <h2
+              id="case-study-gate-form-title"
+              className="font-display text-lg font-medium text-[var(--ink)] md:text-xl"
+            >
+              Unlock cohort case study
+            </h2>
+          ) : null}
+          <p className={suppressLockedIntro ? "mt-2 text-sm leading-relaxed text-[var(--body)]" : "text-sm leading-relaxed text-[var(--body)]"}>
             This section is password-protected. Enter the password to continue reading the case study.
           </p>
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">

@@ -1,0 +1,31 @@
+{
+  "chapterTitle": "Lune Design Foundation and System",
+  "eyebrow": "Reflection",
+  "teaser": "I built Lune’s system with Claude, Figma MCP, Cursor, and Tailwind: tokens to shipped UI in my hands. Same craft I used at Komodo; a totally different power structure. The full story: from consensus to control.",
+  "lead": "Alongside client work, I designed the Lune brand foundation and design system from the ground up. This section isn’t a full branding deck. It’s what I learned building both in the age of AI versus what I’ve seen inside traditional organizations that follow classic design system playbooks.",
+  "scopeNote": "You won’t see the complete visual system or every component here, only the lessons that stuck with me when the process, tools, and expectations weren’t the same as a big company design org.",
+  "framing": {
+    "title": "Why compare these two contexts",
+    "body": "A greenfield brand and system let you move fast and own decisions end to end. The tradeoff is you’re also the one defining tokens, patterns, and governance without a committee doing it for you. AI tooling changed where I spent time: less rote production, more judgment on what should exist and how it should behave. In traditional orgs, design systems often optimize for scale, consistency, and adoption across many teams, sometimes at the cost of speed and experimentation."
+  },
+  "comparison": {
+    "aiColumnTitle": "From scratch in the AI era",
+    "aiBody": "Generative tools compressed exploration: more variants, faster critique, quicker alignment on direction. The hard part shifted to curation: deciding what to keep, what to cut, and how to document decisions so the system stayed coherent as it grew.",
+    "traditionalColumnTitle": "Traditional org patterns",
+    "traditionalBody": "Mature systems lean on contribution models, RFCs, and release trains. That structure reduces chaos but can slow first principles work. I’m not dismissing it. Those patterns exist because coordination at scale is hard, but the rhythm feels different when you’re solo or on a small team building the first version."
+  },
+  "learnings": [
+    {
+      "title": "Foundation before components",
+      "body": "Naming, principles, and token strategy paid off before the component library got big. Skipping that to ship faster would have created rework when AI generated UI needed to map back to real tokens."
+    },
+    {
+      "title": "AI speeds exploration, not ownership",
+      "body": "Models can propose layouts and copy, but brand and system decisions still need a human owner. I spent more time on rationale and constraints so the system could evolve without turning into a junk drawer of one offs."
+    },
+    {
+      "title": "Documentation is the product",
+      "body": "In a traditional DS org, docs are often a team job. Here, lightweight, honest docs (what exists, why, when to use it) mattered as much as the Figma library, especially for future me and anyone picking the system up later."
+    }
+  ]
+}

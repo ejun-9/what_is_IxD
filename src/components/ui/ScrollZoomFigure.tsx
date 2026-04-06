@@ -1,48 +1,24 @@
-"use client";
-
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-
 type Props = {
   src: string;
   alt: string;
   className?: string;
 };
 
-/** Scroll-linked scale so figures feel like they “zoom in” as you move down the page. */
+/** Case study figure: static image, same layout shell as before (no scroll-linked zoom). */
 export function ScrollZoomFigure({ src, alt, className = "" }: Props) {
-  const ref = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.35, 0.55, 1],
-    reduceMotion ? [1, 1, 1, 1] : [0.74, 1.22, 1.14, 1],
-  );
-
   return (
     <div
-      ref={ref}
-      className={`relative overflow-visible py-3 sm:py-4 md:min-h-[min(56vh,440px)] md:py-5 ${className}`}
+      className={`relative pt-1.5 pb-0 sm:pt-2 md:pt-2 ${className}`}
     >
       <div className="-mx-4 sm:-mx-6 md:-mx-10 lg:-mx-12 xl:-mx-16">
-        <div className="rounded-xl p-[min(8%,2.5rem)] md:mx-auto md:max-w-5xl">
-          <motion.div
-            style={{ scale, transformOrigin: "center center" }}
-            className="will-change-transform"
-          >
-            <img
-              src={src}
-              alt={alt}
-              className="block h-auto w-full rounded-lg"
-              loading="lazy"
-              decoding="async"
-            />
-          </motion.div>
+        <div className="rounded-xl p-3 sm:p-4 md:mx-auto md:max-w-5xl md:p-5">
+          <img
+            src={src}
+            alt={alt}
+            className="block h-auto w-full rounded-lg"
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
     </div>

@@ -1,48 +1,31 @@
-"use client";
-
-import { useState } from "react";
+import Link from "next/link";
 import type { ProfileContent } from "@/content/profile";
-import { ExplainerSection } from "@/components/sections/ExplainerSection";
-import { DesignRealitySection } from "@/components/sections/DesignRealitySection";
+import { ScrollZoomSection } from "@/components/ui/ScrollZoomSection";
+import { SectionHeader } from "@/components/ui/SectionHeader";
+import { FadeIn } from "@/components/ui/FadeIn";
 
-type Props = {
-  profile: ProfileContent;
-};
+/** Matches case study preview blocks; full explainer lives on `/interaction-design-primer`. */
+const openLinkClassName =
+  "text-sm font-medium text-[var(--accent)] underline decoration-[var(--rule-strong)] underline-offset-4 transition hover:text-[var(--ink)] hover:decoration-[var(--accent)]";
 
-/** Optional explainer + myth/reality block, toggled from a control under Education. */
-export function IxDPrimerSection({ profile }: Props) {
-  const [showIxD, setShowIxD] = useState(false);
+export function IxDPrimerSection({ profile }: { profile: ProfileContent }) {
+  const data = profile.interactionDesignExplainer;
 
   return (
-    <>
-      <section className="py-8 md:py-10" aria-label="More on interaction design">
-        <div className="mx-auto max-w-content px-5 md:px-8">
-          <button
-            type="button"
-            onClick={() => setShowIxD((v) => !v)}
-            className="group flex w-full items-center justify-between gap-4 rounded-xl border border-[var(--rule)] bg-[var(--wash)] px-5 py-4 text-left shadow-[var(--shadow-soft)] transition hover:border-[var(--ink-soft)] md:px-6 md:py-5"
-            aria-expanded={showIxD}
-            aria-controls="ixd-primer"
-          >
-            <span className="font-display text-lg font-medium leading-snug text-[var(--ink)] md:text-xl">
-              {showIxD ? "Nevermind I know this" : "Tell me more about interaction design"}
-            </span>
-            <span
-              className="shrink-0 text-lg text-[var(--muted)] transition group-hover:text-[var(--ink)]"
-              aria-hidden
-            >
-              {showIxD ? "↑" : "↓"}
-            </span>
-          </button>
-        </div>
-      </section>
-
-      {showIxD ? (
-        <div id="ixd-primer">
-          <ExplainerSection data={profile.interactionDesignExplainer} hideTopBorder />
-          <DesignRealitySection data={profile.designReality} />
-        </div>
-      ) : null}
-    </>
+    <ScrollZoomSection
+      className="border-t border-[var(--rule)] py-8 md:py-10"
+      innerClassName="mx-auto max-w-content px-5 md:px-8"
+      disableScale
+    >
+      <SectionHeader partLabel={data.partLabel} title={data.chapterTitle} />
+      <FadeIn>
+        <p className="max-w-prose text-lg leading-relaxed text-[var(--body)]">{data.intro}</p>
+        <p className="mt-6 md:mt-8">
+          <Link href="/interaction-design-primer" className={openLinkClassName}>
+            Read more about it
+          </Link>
+        </p>
+      </FadeIn>
+    </ScrollZoomSection>
   );
 }

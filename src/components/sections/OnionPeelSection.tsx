@@ -242,7 +242,7 @@ export function OnionPeelSection({ data }: { data: ProfileContent["onionPeel"] }
           className="relative mx-auto aspect-[5/4] w-full max-h-[min(82vh,42rem)] overflow-hidden rounded-2xl bg-[var(--wash)] ring-1 ring-[var(--rule)] sm:max-h-[min(80vh,46rem)] md:aspect-[16/9] md:max-h-[min(78vh,50rem)] lg:aspect-[2/1] lg:max-h-[min(74vh,56rem)]"
         >
           {reduceMotion ? (
-            <div className="grid h-full grid-cols-2 gap-3 p-4 md:grid-cols-2 md:gap-4 md:p-6">
+            <div className="grid h-full grid-cols-2 gap-3 p-4 md:grid-cols-2 md:gap-4 md:p-5">
               {data.images.map((item) =>
                 item.sticker ? (
                   <div key={item.src} className="relative aspect-square w-full max-w-[11rem] overflow-visible">

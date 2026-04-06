@@ -27,6 +27,19 @@ body {
   font-family: var(--font-serif), ui-serif, Georgia, serif;
 }
 
+/* Avoid typographic orphans: balanced multi-line titles; fewer lone words at line ends in prose. */
+@layer base {
+  body :where(h1, h2, h3, h4) {
+    text-wrap: balance;
+  }
+  body :where(p, li, dd, figcaption) {
+    text-wrap: pretty;
+  }
+  body :where(p.font-display) {
+    text-wrap: balance;
+  }
+}
+
 .font-display {
   font-family: var(--font-display), ui-serif, Georgia, serif;
 }
