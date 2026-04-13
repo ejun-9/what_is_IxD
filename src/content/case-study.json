@@ -2,26 +2,26 @@
   "partLabel": "Case study presentation",
   "chapterTitle": "Cohort Building Experience",
   "gateTeaser": "A walkthrough of redesigning a healthcare cohort builder: who uses these tools, why the legacy flow was slow and opaque, and how clearer aggregates, customization, and later AI-assisted patterns changed the experience.",
-  "lead": "Before jumping into interaction details, this case study starts with who uses cohort tools and what “cohort building” means in healthcare data, so the rest of the story has a clear anchor.",
+  "lead": "Before I get into the interaction details, let me set the stage — who I was designing for, and what \"cohort building\" actually means in healthcare data.",
   "leadHighlights": [
     {
-      "label": "The user",
+      "label": "Who I designed for",
       "text": "Healthcare data analysts who define and refine patient cohorts for research and clinical analysis."
     },
     {
-      "label": "Patient cohorts",
-      "text": "Groups of individuals who share characteristics (disease, demographics like age, gender, location, enrollment type) and are followed over time for research or clinical use."
+      "label": "What a patient cohort is",
+      "text": "A group of individuals who share characteristics — disease, demographics like age, gender, location, enrollment type — and are followed over time for research or clinical use."
     },
     {
-      "label": "Cohort builders",
-      "text": "Products that help analysts discover and group patients in a no-code or low-code way, instead of writing queries by hand against raw data."
+      "label": "What a cohort builder does",
+      "text": "It lets analysts discover and group patients without writing raw queries — a no-code or low-code tool that makes complex data accessible."
     }
   ],
   "beats": [
     {
       "kicker": "Problem",
       "title": "They were building blind",
-      "body": "The legacy cohort builder, “Prism,” generated a single cohort report, and it took between 30 and 60 minutes to complete.",
+      "body": "The legacy cohort builder, \"Prism,\" generated a single cohort report, and it took between 30 and 60 minutes to complete.",
       "plain": true,
       "figures": [
         {

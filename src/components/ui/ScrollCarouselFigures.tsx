@@ -119,9 +119,9 @@ export function ScrollCarouselFigures({ slides }: { slides: Slide[] }) {
 
   if (n <= 1 && slides[0]) {
     return (
-      <div className="pt-1.5 pb-0 md:min-h-[min(56vh,400px)] md:pt-2 md:pb-0">
+      <div className="pt-1.5 pb-0 md:min-h-[min(50vh,420px)] md:pt-2 md:pb-0">
         <div className="-mx-4 sm:-mx-6 md:-mx-10 lg:-mx-12 xl:-mx-16">
-          <div className="overflow-hidden rounded-xl p-3 sm:p-4 md:mx-auto md:max-w-5xl md:p-5">
+          <div className="overflow-hidden rounded-xl p-3 sm:p-4 md:mx-auto md:max-w-none md:p-5">
             <img
               src={slides[0].src}
               alt={slides[0].alt}
@@ -140,11 +140,11 @@ export function ScrollCarouselFigures({ slides }: { slides: Slide[] }) {
   return (
     <div className="relative pt-1.5 pb-0 md:pt-2 md:pb-0">
       <div className="-mx-4 sm:-mx-6 md:-mx-10 lg:-mx-12 xl:-mx-16">
-        <div className="relative md:mx-auto md:max-w-5xl">
-          <div className="overflow-hidden rounded-xl p-3 sm:p-4 md:p-5">
+        <div className="relative w-full md:mx-auto md:max-w-none">
+          <div className="overflow-hidden rounded-xl p-2 sm:p-3 md:p-4">
             <div
               ref={scrollRef}
-              className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              className="flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-smooth [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:gap-4"
               tabIndex={0}
               role="region"
               aria-roledescription="carousel"
@@ -165,7 +165,7 @@ export function ScrollCarouselFigures({ slides }: { slides: Slide[] }) {
                   ref={(el) => {
                     itemRefs.current[i] = el;
                   }}
-                  className="w-[min(85%,42rem)] shrink-0 snap-center"
+                  className="w-[min(94%,min(56rem,calc(100vw-2.5rem)))] shrink-0 snap-center sm:w-[min(92%,56rem)]"
                 >
                   <img
                     src={s.src}

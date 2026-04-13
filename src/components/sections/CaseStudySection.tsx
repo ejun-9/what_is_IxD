@@ -50,6 +50,9 @@ function resolvePrototypeHref(beatHref?: string) {
   return process.env.NEXT_PUBLIC_CASE_STUDY_PROTOTYPE_URL?.trim() ?? "";
 }
 
+/** Set to true to show the Present control and fullscreen slideshow entry. */
+const SHOW_PRESENT_BUTTON = false;
+
 /* ─── Present button ─── */
 function PresentButton({ onClick }: { onClick: () => void }) {
   return (
@@ -95,15 +98,23 @@ export function CaseStudySection({ caseStudy }: { caseStudy: ProfileContent["cas
         disableScale
       >
         <div id="case-study-intro" className="scroll-mt-24 md:scroll-mt-28">
-          <div className="flex flex-wrap items-start justify-between gap-4 !mb-5 md:!mb-7">
+          <div
+            className={
+              SHOW_PRESENT_BUTTON
+                ? "flex flex-wrap items-start justify-between gap-4 !mb-5 md:!mb-7"
+                : "!mb-5 md:!mb-7"
+            }
+          >
             <SectionHeader
               className="!mb-0"
               partLabel={caseStudy.partLabel}
               title={caseStudy.chapterTitle}
             />
-            <div className="pt-1">
-              <PresentButton onClick={() => setPresenting(true)} />
-            </div>
+            {SHOW_PRESENT_BUTTON ? (
+              <div className="pt-1">
+                <PresentButton onClick={() => setPresenting(true)} />
+              </div>
+            ) : null}
           </div>
           <FadeIn>
             <div
@@ -272,19 +283,11 @@ export function CaseStudySection({ caseStudy }: { caseStudy: ProfileContent["cas
                   : "rounded-xl border border-[var(--rule)] bg-[var(--paper)] p-4 md:p-5"
               }`}
             >
-              {useCarousel && figures[0] ? (
-                <div className="grid items-center gap-8 md:grid-cols-2 md:gap-12">
-                  <div>{textContent}</div>
-                  <div className="overflow-hidden rounded-xl border border-[var(--rule)] bg-[var(--wash)]">
-                    <img
-                      src={figures[0].src}
-                      alt={figures[0].alt}
-                      className="block h-auto w-full"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                </div>
+              {useCarousel && figures.length > 0 ? (
+                <>
+                  {textContent}
+                  <div className="mt-2 space-y-0 md:mt-3">{renderBeatFigures(figures, true)}</div>
+                </>
               ) : (
                 <>
               {ctaOnTop ? ctaBlock : null}

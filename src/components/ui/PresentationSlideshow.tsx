@@ -209,68 +209,60 @@ function IntroSlide({
   reduce: boolean;
 }) {
   return (
-    <div className="flex min-h-full flex-col lg:flex-row">
-      {/* Left: text */}
-      <div className="flex items-center px-10 py-14 lg:w-1/2 lg:px-16 lg:py-16">
-        <div className="w-full max-w-lg">
-          <motion.div
-            variants={reduce ? {} : stagger}
-            initial={reduce ? false : "hidden"}
-            animate="show"
+    <div className="flex min-h-full items-center px-10 py-14 lg:px-16 lg:py-16">
+      <div className="w-full max-w-2xl">
+        <motion.div
+          variants={reduce ? {} : stagger}
+          initial={reduce ? false : "hidden"}
+          animate="show"
+        >
+          <motion.p
+            variants={reduce ? {} : itm}
+            className="mb-4 text-[11px] font-semibold tracking-[0.2em] uppercase"
+            style={{ color: DEFAULT_ACCENT }}
           >
+            Context
+          </motion.p>
+
+          <motion.h2
+            variants={reduce ? {} : itm}
+            className="font-display font-medium leading-[1.08] tracking-tight text-white"
+            style={{ fontSize: "clamp(2rem, 4.5vw, 3.75rem)" }}
+          >
+            {chapterTitle}
+          </motion.h2>
+
+          {lead ? (
             <motion.p
               variants={reduce ? {} : itm}
-              className="mb-4 text-[11px] font-semibold tracking-[0.2em] uppercase"
-              style={{ color: DEFAULT_ACCENT }}
+              className="mt-5 text-base leading-relaxed text-white/50 md:text-lg"
             >
-              Context
+              {lead}
             </motion.p>
+          ) : null}
 
-            <motion.h2
+          {leadHighlights && leadHighlights.length > 0 ? (
+            <motion.ul
               variants={reduce ? {} : itm}
-              className="font-display font-medium leading-[1.08] tracking-tight text-white"
-              style={{ fontSize: "clamp(2rem, 4.5vw, 3.75rem)" }}
+              className="mt-8 space-y-5 border-l-2 pl-5"
+              style={{ borderColor: `${DEFAULT_ACCENT}60` }}
             >
-              {chapterTitle}
-            </motion.h2>
-
-            {lead ? (
-              <motion.p
-                variants={reduce ? {} : itm}
-                className="mt-5 text-base leading-relaxed text-white/50 md:text-lg"
-              >
-                {lead}
-              </motion.p>
-            ) : null}
-
-            {leadHighlights && leadHighlights.length > 0 ? (
-              <motion.ul
-                variants={reduce ? {} : itm}
-                className="mt-8 space-y-5 border-l-2 pl-5"
-                style={{ borderColor: `${DEFAULT_ACCENT}60` }}
-              >
-                {leadHighlights.map((h) => (
-                  <li key={h.label}>
-                    <p
-                      className="text-[10px] font-semibold uppercase tracking-[0.14em]"
-                      style={{ color: DEFAULT_ACCENT }}
-                    >
-                      {h.label}
-                    </p>
-                    <p className="mt-1 text-sm leading-relaxed text-white/50 md:text-base">
-                      {h.text}
-                    </p>
-                  </li>
-                ))}
-              </motion.ul>
-            ) : null}
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Right: illustration */}
-      <div className="flex items-center justify-center bg-white/[0.025] px-8 py-10 lg:flex-1 lg:px-12 lg:py-16">
-        <CohortBuilderDiagram />
+              {leadHighlights.map((h) => (
+                <li key={h.label}>
+                  <p
+                    className="text-[10px] font-semibold uppercase tracking-[0.14em]"
+                    style={{ color: DEFAULT_ACCENT }}
+                  >
+                    {h.label}
+                  </p>
+                  <p className="mt-1 text-sm leading-relaxed text-white/50 md:text-base">
+                    {h.text}
+                  </p>
+                </li>
+              ))}
+            </motion.ul>
+          ) : null}
+        </motion.div>
       </div>
     </div>
   );
