@@ -1,0 +1,199 @@
+[
+  {
+    "kicker": "Context & stakes",
+    "title": "Who uses cohort tools and why it matters",
+    "body": "Healthcare data analysts define patient populations for research and clinical analysis.\n\nCohort building is the no-code way to group patients by disease, demographics, enrollment, and more.\n\nHigh stakes: the cohort is the research. A wrong definition means bad data and bad outcomes.\n\nWhy this matters to Hike: your platform’s eligibility verification and intake decisions are the same kind of foundational data problem — get it wrong upstream and everything downstream is wrong.",
+    "plain": true,
+    "figures": [
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "alt": "Placeholder image"
+      }
+    ]
+  },
+  {
+    "kicker": "Context & stakes",
+    "title": "The activation problem",
+    "body": "Legacy tool (Prism): configure → submit → wait 30–60 min → report.\n\nNew users depended on account managers for ~3 months before independent use. Most people didn’t build cohorts daily — they relied on AMs as a crutch.\n\nThis wasn’t just a UX problem. It was a business model problem: you can’t scale if every new user needs a human guide.",
+    "plain": true,
+    "figures": [
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "alt": "Placeholder image (before)",
+        "clickRevealCaption": "30–60 min later"
+      },
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder-reveal.svg",
+        "alt": "Placeholder image (after)"
+      }
+    ]
+  },
+  {
+    "kicker": "Research",
+    "title": "We started with the foundation problem",
+    "body": "Before AI: users couldn’t see what they were building in real time.\n\nNo feedback loop meant building blind, low confidence, and account-manager dependency.\n\nResearch question: what does “confident” look like for a clinical analyst building a cohort?\n\nWe ran user interviews and usability sessions on the existing flow.",
+    "plain": true,
+    "figures": [
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "alt": "Placeholder image"
+      }
+    ]
+  },
+  {
+    "kicker": "Research",
+    "title": "Designing real-time validation",
+    "body": "Aggregate panels: instant counts and visualizations as you build.\n\nCustomizable panels — cohort-building has multiple use cases (e.g. market research vs. clinical).\n\nEarly prototypes, tested with analysts — use the carousel for 2–3 iteration screens.\n\nKey decision: what data to surface by default vs. what to make accessible but not default.",
+    "plain": true,
+    "figuresCarousel": true,
+    "figures": [
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "alt": "Placeholder image 1 of 4"
+      },
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder-reveal.svg",
+        "alt": "Placeholder image 2 of 4"
+      },
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "alt": "Placeholder image 3 of 4"
+      },
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder-reveal.svg",
+        "alt": "Placeholder image 4 of 4"
+      }
+    ]
+  },
+  {
+    "kicker": "Research",
+    "title": "Then we added AI — and found the wrong assumption",
+    "body": "Same users, same cohort problem. New problem: they didn’t trust the AI output.\n\nWe followed the standard agentic pattern: chat-first.\n\nAssumption baked in: users would keep chatting with the AI throughout the session.\n\nResearch showed: they didn’t. One prompt, then back to point-and-click — about three weeks building in the wrong direction.",
+    "plain": true,
+    "figuresCarousel": true,
+    "figures": [
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "alt": "Placeholder image 1 of 2"
+      },
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder-reveal.svg",
+        "alt": "Placeholder image 2 of 2"
+      }
+    ]
+  },
+  {
+    "kicker": "Design decisions",
+    "title": "The behavioral insight that changed everything",
+    "body": "Actual usage: analysts moved between familiar tools and occasional AI help.\n\nThey wanted AI within reach — not AI owning the experience.\n\nUser voice (paraphrased): “I’m not trying to live in chat — I need the builder.”\n\nReframe: the winning layout should match how people actually work, not how we assumed they would.",
+    "plain": true,
+    "figures": [
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "alt": "Placeholder image"
+      }
+    ]
+  },
+  {
+    "kicker": "Design decisions",
+    "title": "The new layout — AI alongside, not in charge",
+    "body": "Anchor: the builder and panels — familiar, trusted.\n\nAI: accessible and reachable, not dominant.\n\nUse the frames for a before/after read — key decision was where the AI surface lives and how it stays out of the way.",
+    "plain": true,
+    "figuresCarousel": true,
+    "figures": [
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "alt": "Placeholder image 1 of 4"
+      },
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder-reveal.svg",
+        "alt": "Placeholder image 2 of 4"
+      },
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "alt": "Placeholder image 3 of 4"
+      },
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder-reveal.svg",
+        "alt": "Placeholder image 4 of 4"
+      }
+    ]
+  },
+  {
+    "kicker": "Design decisions",
+    "title": "Designing for trust — the transparency problem",
+    "body": "Users who understood what the AI was doing moved fast. Users who didn’t, froze.\n\nToo little explanation → distrust. Too much → cognitive overload — often ignored entirely.\n\nDesign solution: surface just enough to build trust; make the rest accessible, not default.\n\nPatterns: confidence indicators, explainability layers, graceful failure when logic needs a human.",
+    "plain": true,
+    "figures": [
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "alt": "Placeholder image"
+      }
+    ]
+  },
+  {
+    "kicker": "Process",
+    "icon": "partnership",
+    "title": "Engineering in the room from day one",
+    "body": "Not a handoff — engineers in research sessions.\n\nThey knew why, not only what.\n\nPrototyped with Figma Make for rapid live testing — faster feedback loops.\n\nWhen research changed direction (week 3 pivot), engineering moved with us because they understood the why.",
+    "plain": true,
+    "figures": [
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "alt": "Placeholder image"
+      }
+    ]
+  },
+  {
+    "kicker": "Outcome",
+    "icon": "activation",
+    "title": "From 3 months to 90 seconds",
+    "body": "New-user activation: ~3 months of AM dependency → about 90 seconds self-serve for key flows.\n\nWhat changed: we removed the need for human guidance at onboarding.\n\nBusiness implication: scale without proportional headcount — the gap existed because the product didn’t support confident self-serve; real-time validation, layout, and trust design closed it.",
+    "plain": true,
+    "figures": [
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "alt": "Placeholder image"
+      }
+    ],
+    "prototypeCta": {
+      "intro": "View clickable prototype:",
+      "label": "check out the vibe coded prototype ;)",
+      "href": "https://prism-prototype-sigma.vercel.app/"
+    }
+  },
+  {
+    "kicker": "Impact",
+    "title": "The research shaped what came next",
+    "body": "“Search to AI Strategy” initiative built on this research.\n\nDownstream AI features: Advanced Code Search, Codeset Suggestions, AI Cohort Builder.\n\nCompany-wide pivot toward AI-first workflows — design patterns from this project carried into the next product.\n\nReal-time aggregate panels became reusable infrastructure — carried directly into subsequent product work.\n\nAI transparency patterns (surface just enough, make the rest accessible) became a design principle applied across the platform.\n\nThe “AI alongside, not owning” layout principle influenced how the team thought about AI placement in other features.\n\nCodeset architecture introduced here became a foundational component reused in code search and clinical code discovery features.",
+    "plain": true,
+    "figures": [
+      {
+        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "alt": "Placeholder image"
+      }
+    ]
+  },
+  {
+    "title": "What this taught me — and why it matters here",
+    "body": "You’re building agentic AI that takes autonomous actions on behalf of clinicians and patients. The transparency design problem is the same as what I just described — higher stakes, different failure modes. The design discipline is the same.",
+    "plain": true,
+    "learningColumns": [
+      {
+        "icon": "assumptions",
+        "title": "Existing patterns carry hidden assumptions. Name them before you build on them.",
+        "body": "Every pattern carries a hidden assumption. We named ours about three weeks too late — chat-first assumed ongoing conversation; analysts wanted one prompt, then the builder."
+      },
+      {
+        "icon": "sparkles",
+        "title": "AI confidence is a product problem, not a feature problem.",
+        "body": "Trust is designed, not assumed: surface just enough to move confidently; put the rest one deliberate step away."
+      },
+      {
+        "icon": "documentation",
+        "title": "Frequency of updates isn’t alignment. Documentation is.",
+        "body": "Leadership communication lesson: coverage and a paper trail beat stand-ups — so decisions travel when the room changes."
+      }
+    ]
+  }
+]

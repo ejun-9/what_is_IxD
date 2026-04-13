@@ -1,4 +1,5 @@
 import caseStudyData from "./case-study.json";
+import cohortDetailsPresentationBeats from "./cohort-details-presentation.json";
 import luneCaseStudyData from "./lune-case-study.json";
 
 export type CarouselPanel = {
@@ -183,6 +184,11 @@ export type ProfileContent = {
     leadHighlights?: CaseStudyLeadHighlight[];
     leadImage?: CaseStudyLeadImage | null;
     beats: CaseStudyBeat[];
+    /**
+     * Fixed-length presentation deck (e.g. interview walkthrough). Same slide styling as scroll beats;
+     * opens from “Presentation mode” on the case study page. Omit intro slide; length is explicit.
+     */
+    detailsPresentationBeats?: CaseStudyBeat[];
   };
   /** Second case study: public, learnings-focused (no password). */
   luneCaseStudy: LuneCaseStudy;
@@ -522,7 +528,12 @@ export const profile: ProfileContent = {
     ],
     languages: "English: fluent · Korean: fluent · Spanish: native",
   },
-  caseStudy: caseStudyData as ProfileContent["caseStudy"],
+  caseStudy: {
+    ...(caseStudyData as ProfileContent["caseStudy"]),
+    detailsPresentationBeats: cohortDetailsPresentationBeats as NonNullable<
+      ProfileContent["caseStudy"]["detailsPresentationBeats"]
+    >,
+  },
   luneCaseStudy: luneCaseStudyData as LuneCaseStudy,
   contact: {
     phone: "+1 (217) 778-7540",

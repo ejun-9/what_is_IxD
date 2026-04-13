@@ -50,26 +50,12 @@ function resolvePrototypeHref(beatHref?: string) {
   return process.env.NEXT_PUBLIC_CASE_STUDY_PROTOTYPE_URL?.trim() ?? "";
 }
 
-/** Set to true to show the Present control and fullscreen slideshow entry. */
-const SHOW_PRESENT_BUTTON = false;
-
-/* ─── Present button ─── */
-function PresentButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="inline-flex items-center gap-2 rounded-full border border-[var(--ink)] bg-[var(--ink)] px-5 py-2.5 text-sm font-medium text-[var(--paper)] transition hover:bg-[var(--ink-soft)] active:scale-[0.97]"
-    >
-      <span aria-hidden>▶</span>
-      Present
-    </button>
-  );
-}
-
 export function CaseStudySection({ caseStudy }: { caseStudy: ProfileContent["caseStudy"] }) {
   const [presenting, setPresenting] = useState(false);
   const highlights = caseStudy.leadHighlights ?? [];
   const img = caseStudy.leadImage;
+  const detailsDeck = caseStudy.detailsPresentationBeats;
+  const showPresentationMode = Boolean(detailsDeck && detailsDeck.length > 0);
 
   const presentationSections = [
     { id: "case-study-intro", label: caseStudy.chapterTitle },
@@ -81,12 +67,11 @@ export function CaseStudySection({ caseStudy }: { caseStudy: ProfileContent["cas
 
   return (
     <>
-      {presenting ? (
+      {presenting && detailsDeck ? (
         <PresentationSlideshow
-          beats={caseStudy.beats}
+          beats={detailsDeck}
           chapterTitle={caseStudy.chapterTitle}
-          lead={caseStudy.lead}
-          leadHighlights={caseStudy.leadHighlights}
+          includeIntroSlide={false}
           onClose={() => setPresenting(false)}
         />
       ) : null}
@@ -98,23 +83,15 @@ export function CaseStudySection({ caseStudy }: { caseStudy: ProfileContent["cas
         disableScale
       >
         <div id="case-study-intro" className="scroll-mt-24 md:scroll-mt-28">
-          <div
-            className={
-              SHOW_PRESENT_BUTTON
-                ? "flex flex-wrap items-start justify-between gap-4 !mb-5 md:!mb-7"
-                : "!mb-5 md:!mb-7"
-            }
-          >
+          <div className="!mb-5 md:!mb-7">
             <SectionHeader
               className="!mb-0"
               partLabel={caseStudy.partLabel}
               title={caseStudy.chapterTitle}
+              onPartLabelClick={
+                showPresentationMode ? () => setPresenting(true) : undefined
+              }
             />
-            {SHOW_PRESENT_BUTTON ? (
-              <div className="pt-1">
-                <PresentButton onClick={() => setPresenting(true)} />
-              </div>
-            ) : null}
           </div>
           <FadeIn>
             <div

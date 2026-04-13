@@ -17,11 +17,43 @@ export const KICKER_ACCENTS: Record<string, string> = {
   "Process":            "#c4a070",  // golden tan
   "Outcome":            "#c8a840",  // warm gold
   "Insight":            "#8b7355",  // base accent
+  "Context & stakes":   "#c4604a",
+  "Research":           "#a08860",
+  "Design decisions":   "#6a9a6a",
+  "Impact":             "#c8a840",
 };
 export const DEFAULT_ACCENT = "#8b7355";
 
+const PRESENTATION_PLACEHOLDER_SRC = "/images/presentation-placeholders/slide-placeholder.svg";
+
 export function kickerAccent(kicker?: string) {
   return kicker ? (KICKER_ACCENTS[kicker] ?? DEFAULT_ACCENT) : DEFAULT_ACCENT;
+}
+
+/** Second line in the presentation top bar: narrative label for the current slide (e.g. Context, Research). */
+export function presentationSectionLabel(
+  isIntro: boolean,
+  beat: CaseStudyBeat | null,
+): string | null {
+  if (isIntro) return "Context";
+  if (!beat) return null;
+  if (beat.learningColumns?.length) return "Learnings";
+  const k = beat.kicker?.trim();
+  if (!k) return null;
+  const byKicker: Record<string, string> = {
+    "Context & stakes": "Context",
+    Research: "Research",
+    "Design decisions": "Design",
+    Process: "Process",
+    Outcome: "Outcome",
+    Impact: "Impact",
+    Problem: "Problem",
+    Solution: "Solution",
+    "Carry forward": "Carry forward",
+    "AI product problem": "AI product",
+    Insight: "Insight",
+  };
+  return byKicker[k] ?? k;
 }
 
 /* ─── Slide transition variants ─── */
@@ -47,22 +79,28 @@ export function PresentationSlideshow({
   lead,
   leadHighlights,
   onClose,
+  /** When false, the first slide is `beats[0]` (no separate context/intro slide). */
+  includeIntroSlide = true,
 }: {
   beats: CaseStudyBeat[];
   chapterTitle: string;
   lead?: string;
   leadHighlights?: CaseStudyLeadHighlight[];
   onClose: () => void;
+  includeIntroSlide?: boolean;
 }) {
-  const total = beats.length + 1; // slide 0 = intro
+  const total = includeIntroSlide ? beats.length + 1 : beats.length;
   const [current, setCurrent] = useState(0);
   const [dir, setDir] = useState(1);
   const reduce = useReducedMotion();
 
-  const go = useCallback((delta: number) => {
-    setDir(delta);
-    setCurrent((c) => Math.max(0, Math.min(total - 1, c + delta)));
-  }, [total]);
+  const go = useCallback(
+    (delta: number) => {
+      setDir(delta);
+      setCurrent((c) => Math.max(0, Math.min(total - 1, c + delta)));
+    },
+    [total],
+  );
 
   const goTo = useCallback((i: number) => {
     setDir(i > current ? 1 : -1);
@@ -88,11 +126,13 @@ export function PresentationSlideshow({
     return () => { document.body.style.overflow = prev; };
   }, []);
 
-  // Slide 0 = intro; slides 1..N = beats[0..N-1]
-  const isIntro = current === 0;
-  const beat = isIntro ? null : beats[current - 1];
+  // With intro: slide 0 = intro; slides 1..N = beats[0..N-1]. Without intro: slide i = beats[i].
+  const isIntro = includeIntroSlide && current === 0;
+  const beatIndex = includeIntroSlide ? current - 1 : current;
+  const beat = isIntro ? null : beats[beatIndex];
   const accent = beat ? kickerAccent(beat.kicker) : DEFAULT_ACCENT;
   const progress = ((current + 1) / total) * 100;
+  const sectionLine = presentationSectionLabel(isIntro, beat);
 
   return (
     <div
@@ -104,9 +144,16 @@ export function PresentationSlideshow({
     >
       {/* Top bar */}
       <div className="flex shrink-0 items-center justify-between border-b border-white/[0.07] px-6 py-3">
-        <span className="text-[10px] font-semibold tracking-[0.18em] uppercase text-white/25">
-          {chapterTitle}
-        </span>
+        <div className="min-w-0 flex flex-col gap-0.5">
+          <span className="text-[10px] font-semibold tracking-[0.18em] uppercase text-white/25">
+            {chapterTitle}
+          </span>
+          {sectionLine ? (
+            <span className="text-[10px] font-medium tracking-[0.12em] text-white/18">
+              {sectionLine}
+            </span>
+          ) : null}
+        </div>
         <div className="flex items-center gap-5">
           <span className="font-mono text-[11px] text-white/22">
             {current + 1} / {total}
@@ -141,18 +188,20 @@ export function PresentationSlideshow({
             animate="center"
             exit={reduce ? undefined : "exit"}
             transition={{ duration: 0.44, ease: [0.32, 0.72, 0, 1] }}
-            className="absolute inset-0 overflow-y-auto"
+            className="absolute inset-0 flex flex-col overflow-hidden"
           >
-            {isIntro ? (
-              <IntroSlide
-                chapterTitle={chapterTitle}
-                lead={lead}
-                leadHighlights={leadHighlights}
-                reduce={!!reduce}
-              />
-            ) : beat ? (
-              <SlideContent beat={beat} accent={accent} reduce={!!reduce} />
-            ) : null}
+            <div className="flex min-h-0 flex-1 flex-col">
+              {isIntro ? (
+                <IntroSlide
+                  chapterTitle={chapterTitle}
+                  lead={lead}
+                  leadHighlights={leadHighlights}
+                  reduce={!!reduce}
+                />
+              ) : beat ? (
+                <SlideContent beat={beat} accent={accent} reduce={!!reduce} />
+              ) : null}
+            </div>
           </motion.div>
         </AnimatePresence>
       </div>
@@ -209,7 +258,7 @@ function IntroSlide({
   reduce: boolean;
 }) {
   return (
-    <div className="flex min-h-full items-center px-10 py-14 lg:px-16 lg:py-16">
+    <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-10 py-14 lg:px-16 lg:py-16">
       <div className="w-full max-w-2xl">
         <motion.div
           variants={reduce ? {} : stagger}
@@ -395,7 +444,7 @@ function KickerLabel({ kicker, accent }: { kicker: string; accent: string }) {
   );
 }
 
-/* ─── Text slide (no figures) ─── */
+/* ─── Text slide (no figures): same split layout as FigureSlide, placeholder + email on the right ─── */
 function TextSlide({
   beat,
   accent,
@@ -409,104 +458,15 @@ function TextSlide({
 }) {
   const prototypeHref = beat.prototypeCta?.href?.trim() ?? "";
   return (
-    <div className="flex min-h-full items-center justify-center px-10 py-16 md:px-16 lg:px-24">
-      <div className="w-full max-w-3xl">
+    <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
+      <div className="flex min-h-0 flex-col px-8 py-12 lg:w-[42%] lg:px-12 lg:py-16">
         <motion.div
           variants={reduce ? {} : stagger}
           initial={reduce ? false : "hidden"}
           animate="show"
+          className="flex min-h-0 w-full flex-1 flex-col"
         >
-          {beat.kicker ? (
-            <motion.div variants={reduce ? {} : itm}>
-              <KickerLabel kicker={beat.kicker} accent={accent} />
-            </motion.div>
-          ) : null}
-
-          {BeatIcon ? (
-            <motion.div variants={reduce ? {} : itm} className="mb-7">
-              <span
-                className="inline-flex h-16 w-16 items-center justify-center rounded-2xl border border-white/12"
-                style={{ color: accent, background: `${accent}1a` }}
-              >
-                <BeatIcon className="h-8 w-8" />
-              </span>
-            </motion.div>
-          ) : null}
-
-          <motion.h2
-            variants={reduce ? {} : itm}
-            className="font-display font-medium leading-[1.08] tracking-tight text-white"
-            style={{ fontSize: "clamp(2.25rem, 5.5vw, 4.75rem)" }}
-          >
-            {beat.title}
-          </motion.h2>
-
-          {beat.body.trim() ? (
-            <motion.p
-              variants={reduce ? {} : itm}
-              className="mt-6 max-w-2xl text-lg leading-relaxed text-white/50 md:text-xl lg:text-2xl"
-            >
-              {beat.body}
-            </motion.p>
-          ) : null}
-
-          {beat.prototypeCta && prototypeHref ? (
-            <motion.div variants={reduce ? {} : itm} className="mt-10">
-              <p className="mb-3 text-[11px] font-medium tracking-[0.16em] uppercase text-white/28">
-                {beat.prototypeCta.intro}
-              </p>
-              <a
-                href={prototypeHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border px-6 py-3 text-sm font-medium transition hover:opacity-75"
-                style={{ borderColor: accent, color: accent }}
-              >
-                {beat.prototypeCta.label} ↗
-              </a>
-            </motion.div>
-          ) : null}
-        </motion.div>
-      </div>
-    </div>
-  );
-}
-
-/* ─── Figure slide: text left, image right ─── */
-function FigureSlide({
-  beat,
-  accent,
-  BeatIcon,
-  figures,
-  useCarousel,
-  reduce,
-}: {
-  beat: CaseStudyBeat;
-  accent: string;
-  BeatIcon: IconComp | null;
-  figures: BeatFigure[];
-  useCarousel: boolean;
-  reduce: boolean;
-}) {
-  const hasClickReveal = Boolean(figures[0]?.clickRevealCaption && figures[1]);
-  const [revealed, setRevealed] = useState(false);
-  const prototypeHref = beat.prototypeCta?.href?.trim() ?? "";
-
-  // Reset reveal when slide changes
-  useEffect(() => { setRevealed(false); }, [beat.title]);
-
-  const displayFigure = hasClickReveal ? (revealed ? figures[1] : figures[0]) : figures[0];
-
-  return (
-    <div className="flex min-h-full flex-col lg:flex-row">
-      {/* Left: text */}
-      <div className="flex items-center px-8 py-12 lg:w-[42%] lg:px-12 lg:py-16">
-        <div className="w-full">
-          <motion.div
-            variants={reduce ? {} : stagger}
-            initial={reduce ? false : "hidden"}
-            animate="show"
-          >
+          <div className="shrink-0">
             {beat.kicker ? (
               <motion.div variants={reduce ? {} : itm}>
                 <KickerLabel kicker={beat.kicker} accent={accent} />
@@ -531,47 +491,172 @@ function FigureSlide({
             >
               {beat.title}
             </motion.h2>
+          </div>
 
-            {beat.body.trim() ? (
+          {beat.body.trim() ? (
+            <div className="mt-4 min-h-0 flex-1 overflow-y-auto overscroll-y-contain pr-1 [-webkit-overflow-scrolling:touch]">
               <motion.p
                 variants={reduce ? {} : itm}
-                className="mt-4 text-base leading-relaxed text-white/48 md:text-lg"
+                className="max-w-none whitespace-pre-line text-base leading-relaxed text-white/48 md:text-lg"
               >
                 {beat.body}
               </motion.p>
-            ) : null}
+            </div>
+          ) : null}
 
-            {beat.prototypeCta && prototypeHref ? (
-              <motion.div variants={reduce ? {} : itm} className="mt-7">
-                <p className="mb-2.5 text-[11px] font-medium tracking-[0.14em] uppercase text-white/28">
-                  {beat.prototypeCta.intro}
-                </p>
-                <a
-                  href={prototypeHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition hover:opacity-75"
-                  style={{ borderColor: accent, color: accent }}
-                >
-                  {beat.prototypeCta.label} ↗
-                </a>
-              </motion.div>
-            ) : null}
-          </motion.div>
-        </div>
+          {beat.prototypeCta && prototypeHref ? (
+            <motion.div variants={reduce ? {} : itm} className="mt-6 shrink-0 border-t border-transparent pt-2">
+              <p className="mb-2.5 text-[11px] font-medium tracking-[0.14em] uppercase text-white/28">
+                {beat.prototypeCta.intro}
+              </p>
+              <a
+                href={prototypeHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition hover:opacity-75"
+                style={{ borderColor: accent, color: accent }}
+              >
+                {beat.prototypeCta.label} ↗
+              </a>
+            </motion.div>
+          ) : null}
+        </motion.div>
       </div>
 
-      {/* Right: figure */}
-      <div className="flex items-center justify-center bg-white/[0.025] px-6 py-8 lg:flex-1 lg:px-10 lg:py-12">
-        {useCarousel ? (
-          <MiniCarousel figures={figures} accent={accent} />
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto bg-white/[0.025] px-6 py-8 lg:px-10 lg:py-12">
+        <div className="w-full max-w-2xl">
+          <motion.img
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            src={PRESENTATION_PLACEHOLDER_SRC}
+            alt="Placeholder"
+            className="block h-auto w-full rounded-xl"
+            draggable={false}
+          />
+          <p className="mt-3 text-center font-mono text-[11px] tracking-[0.08em] text-white/22">
+            placeholder@email.com
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Figure slide: text left, image right ─── */
+function FigureSlide({
+  beat,
+  accent,
+  BeatIcon,
+  figures,
+  useCarousel,
+  reduce,
+}: {
+  beat: CaseStudyBeat;
+  accent: string;
+  BeatIcon: IconComp | null;
+  figures: BeatFigure[];
+  useCarousel: boolean;
+  reduce: boolean;
+}) {
+  const prototypeHref = beat.prototypeCta?.href?.trim() ?? "";
+  const pairedFigures =
+    Boolean(figures[0]?.clickRevealCaption?.trim() && figures[1]) ? figures.slice(0, 2) : null;
+  const stackedImages: BeatFigure[] = useCarousel ? figures : pairedFigures ?? [];
+  const showImageStack =
+    stackedImages.length > 0 && (useCarousel || Boolean(pairedFigures));
+
+  return (
+    <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
+      {/* Left: kicker / title fixed; body scrolls independently */}
+      <div className="flex min-h-0 flex-col px-8 py-12 lg:w-[42%] lg:px-12 lg:py-16">
+        <motion.div
+          variants={reduce ? {} : stagger}
+          initial={reduce ? false : "hidden"}
+          animate="show"
+          className="flex min-h-0 w-full flex-1 flex-col"
+        >
+          <div className="shrink-0">
+            {beat.kicker ? (
+              <motion.div variants={reduce ? {} : itm}>
+                <KickerLabel kicker={beat.kicker} accent={accent} />
+              </motion.div>
+            ) : null}
+
+            {BeatIcon ? (
+              <motion.div variants={reduce ? {} : itm} className="mb-5">
+                <span
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/12"
+                  style={{ color: accent, background: `${accent}1a` }}
+                >
+                  <BeatIcon className="h-6 w-6" />
+                </span>
+              </motion.div>
+            ) : null}
+
+            <motion.h2
+              variants={reduce ? {} : itm}
+              className="font-display font-medium leading-[1.1] tracking-tight text-white"
+              style={{ fontSize: "clamp(1.75rem, 3.2vw, 3rem)" }}
+            >
+              {beat.title}
+            </motion.h2>
+          </div>
+
+          {beat.body.trim() ? (
+            <div className="mt-4 min-h-0 flex-1 overflow-y-auto overscroll-y-contain pr-1 [-webkit-overflow-scrolling:touch]">
+              <motion.p
+                variants={reduce ? {} : itm}
+                className="whitespace-pre-line text-base leading-relaxed text-white/48 md:text-lg"
+              >
+                {beat.body}
+              </motion.p>
+            </div>
+          ) : null}
+
+          {beat.prototypeCta && prototypeHref ? (
+            <motion.div variants={reduce ? {} : itm} className="mt-6 shrink-0 border-t border-transparent pt-2">
+              <p className="mb-2.5 text-[11px] font-medium tracking-[0.14em] uppercase text-white/28">
+                {beat.prototypeCta.intro}
+              </p>
+              <a
+                href={prototypeHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition hover:opacity-75"
+                style={{ borderColor: accent, color: accent }}
+              >
+                {beat.prototypeCta.label} ↗
+              </a>
+            </motion.div>
+          ) : null}
+        </motion.div>
+      </div>
+
+      {/* Right: figure (independent scroll if stack is tall) */}
+      <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto bg-white/[0.025] px-6 py-8 lg:px-10 lg:py-12">
+        {showImageStack ? (
+          <div className="flex w-full max-w-2xl flex-col gap-4">
+            {stackedImages.map((fig) => (
+              <motion.img
+                key={fig.src}
+                src={fig.src}
+                alt={fig.alt ?? ""}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="block h-auto w-full rounded-xl"
+                draggable={false}
+              />
+            ))}
+          </div>
         ) : (
           <div className="relative w-full max-w-2xl">
             <AnimatePresence mode="wait">
               <motion.img
-                key={displayFigure?.src}
-                src={displayFigure?.src}
-                alt={displayFigure?.alt ?? ""}
+                key={figures[0]?.src}
+                src={figures[0]?.src}
+                alt={figures[0]?.alt ?? ""}
                 initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.97 }}
@@ -580,15 +665,6 @@ function FigureSlide({
                 draggable={false}
               />
             </AnimatePresence>
-            {hasClickReveal && !revealed ? (
-              <button
-                onClick={() => setRevealed(true)}
-                className="absolute bottom-3 right-3 rounded-full border bg-black/70 px-4 py-2 text-xs font-medium text-white/70 backdrop-blur-sm transition hover:text-white"
-                style={{ borderColor: `${accent}70` }}
-              >
-                {figures[0].clickRevealCaption} →
-              </button>
-            ) : null}
           </div>
         )}
       </div>
@@ -608,7 +684,7 @@ function LearningsSlide({
 }) {
   const cols = beat.learningColumns ?? [];
   return (
-    <div className="flex min-h-full flex-col px-8 py-12 md:px-12 md:py-14">
+    <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-8 py-12 md:px-12 md:py-14">
       <motion.div
         variants={reduce ? {} : stagger}
         initial={reduce ? false : "hidden"}
@@ -649,52 +725,16 @@ function LearningsSlide({
             );
           })}
         </div>
-      </motion.div>
-    </div>
-  );
-}
 
-/* ─── Mini carousel for carousel-figures in presentation ─── */
-function MiniCarousel({ figures, accent }: { figures: BeatFigure[]; accent: string }) {
-  const [idx, setIdx] = useState(0);
-  const n = figures.length;
-  return (
-    <div className="w-full max-w-2xl space-y-4">
-      {/* Fixed aspect container so nav arrows never shift position */}
-      <div className="relative w-full overflow-hidden rounded-xl" style={{ aspectRatio: "16/10" }}>
-        <AnimatePresence mode="wait">
-          <motion.img
-            key={figures[idx]?.src}
-            src={figures[idx]?.src}
-            alt={figures[idx]?.alt ?? ""}
-            initial={{ opacity: 0, x: 16 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -16 }}
-            transition={{ duration: 0.28, ease: "easeOut" }}
-            className="absolute inset-0 h-full w-full object-contain"
-            draggable={false}
-          />
-        </AnimatePresence>
-      </div>
-      {n > 1 ? (
-        <div className="flex items-center justify-center gap-3">
-          <button
-            onClick={() => setIdx((i) => Math.max(0, i - 1))}
-            disabled={idx === 0}
-            className="rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/38 transition hover:border-white/30 hover:text-white/70 disabled:opacity-20"
+        {beat.body.trim() ? (
+          <motion.p
+            variants={reduce ? {} : itm}
+            className="mt-10 max-w-3xl whitespace-pre-line border-t border-white/[0.08] pt-8 text-base leading-relaxed text-white/50 md:text-lg"
           >
-            ←
-          </button>
-          <span className="font-mono text-xs text-white/28">{idx + 1} / {n}</span>
-          <button
-            onClick={() => setIdx((i) => Math.min(n - 1, i + 1))}
-            disabled={idx === n - 1}
-            className="rounded-full border border-white/15 px-3 py-1.5 text-xs text-white/38 transition hover:border-white/30 hover:text-white/70 disabled:opacity-20"
-          >
-            →
-          </button>
-        </div>
-      ) : null}
+            {beat.body}
+          </motion.p>
+        ) : null}
+      </motion.div>
     </div>
   );
 }

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800" role="img" aria-label="Image placeholder (revealed state)">
+  <rect width="100%" height="100%" fill="#161412"/>
+  <rect x="40" y="40" width="1200" height="720" rx="14" fill="none" stroke="#4a433c" stroke-width="2" stroke-dasharray="6 10"/>
+  <text x="640" y="390" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="28" fill="#756e66">Image placeholder</text>
+  <text x="640" y="430" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="14" fill="#524d48">Revealed / after state</text>
+</svg>
