@@ -2,7 +2,7 @@
   {
     "kicker": "Context & stakes",
     "title": "Who uses cohort tools and why it matters",
-    "body": "Healthcare data analysts define patient populations for research and clinical analysis.\n\nCohort building is the no-code way to group patients by disease, demographics, enrollment, and more.\n\nHigh stakes: the cohort is the research. A wrong definition means bad data and bad outcomes.\n\nWhy this matters to Hike: your platform’s eligibility verification and intake decisions are the same kind of foundational data problem — get it wrong upstream and everything downstream is wrong.",
+    "body": "Healthcare data analysts define patient populations for research and clinical analysis.\n\nCohort building is the no-code way to group patients by disease, demographics, enrollment, and more.",
     "plain": true,
     "figures": [
       {
@@ -31,7 +31,7 @@
   {
     "kicker": "Research",
     "title": "We started with the foundation problem",
-    "body": "Before AI: users couldn’t see what they were building in real time.\n\nNo feedback loop meant building blind, low confidence, and account-manager dependency.\n\nResearch question: what does “confident” look like for a clinical analyst building a cohort?\n\nWe ran user interviews and usability sessions on the existing flow.",
+    "body": "Users couldn’t see what they were building in real time.\n\nNo feedback loop meant building blind, low confidence, and account-manager dependency.\n\nWhat does “confident” look like for a user building cohorts?\n\nWe ran user interviews and usability sessions on the existing flow.",
     "plain": true,
     "figures": [
       {
@@ -43,7 +43,7 @@
   {
     "kicker": "Research",
     "title": "Designing real-time validation",
-    "body": "Aggregate panels: instant counts and visualizations as you build.\n\nCustomizable panels — cohort-building has multiple use cases (e.g. market research vs. clinical).\n\nEarly prototypes, tested with analysts — use the carousel for 2–3 iteration screens.\n\nKey decision: what data to surface by default vs. what to make accessible but not default.",
+    "body": "Aggregate panels: counts and visualizations as you build.\n\nCustomizable panels — cohort-building has multiple use cases.\n\nEarly prototypes, tested with analysts — use the carousel for 2–3 iteration screens.\n\nKey decision: what aggregates to surface by default vs. what to make accessible but not default.",
     "plain": true,
     "figuresCarousel": true,
     "figures": [
@@ -68,7 +68,7 @@
   {
     "kicker": "Research",
     "title": "Then we added AI — and found the wrong assumption",
-    "body": "Same users, same cohort problem. New problem: they didn’t trust the AI output.\n\nWe followed the standard agentic pattern: chat-first.\n\nAssumption baked in: users would keep chatting with the AI throughout the session.\n\nResearch showed: they didn’t. One prompt, then back to point-and-click — about three weeks building in the wrong direction.",
+    "body": "Same users, same cohort problem. They didn’t trust the AI output.\n\nWe followed the standard agentic pattern: chat-first.\n\nAssumption baked in: users would keep chatting with the AI throughout the session.\n\nResearch showed: they didn’t. One prompt, then back to point-and-click — about three weeks building in the wrong direction.",
     "plain": true,
     "figuresCarousel": true,
     "figures": [
@@ -97,7 +97,7 @@
   {
     "kicker": "Design decisions",
     "title": "The new layout — AI alongside, not in charge",
-    "body": "Anchor: the builder and panels — familiar, trusted.\n\nAI: accessible and reachable, not dominant.\n\nUse the frames for a before/after read — key decision was where the AI surface lives and how it stays out of the way.",
+    "body": "New layout, familiar and comfortable.\n\nAI: accessible and reachable, not dominant.",
     "plain": true,
     "figuresCarousel": true,
     "figures": [
@@ -122,7 +122,7 @@
   {
     "kicker": "Design decisions",
     "title": "Designing for trust — the transparency problem",
-    "body": "Users who understood what the AI was doing moved fast. Users who didn’t, froze.\n\nToo little explanation → distrust. Too much → cognitive overload — often ignored entirely.\n\nDesign solution: surface just enough to build trust; make the rest accessible, not default.\n\nPatterns: confidence indicators, explainability layers, graceful failure when logic needs a human.",
+    "body": "The design decision: show **just enough** for people to understand and work with the system.\n\nWhat we implemented:\n\n1. **Progressive disclosure** — by design.\n2. **Surface just enough**, and make everything else easily accessible.\n3. **User control** — make it clear everything is modifiable; they can pause or delete anything at any point.",
     "plain": true,
     "figures": [
       {
@@ -148,7 +148,7 @@
     "kicker": "Outcome",
     "icon": "activation",
     "title": "From 3 months to 90 seconds",
-    "body": "New-user activation: ~3 months of AM dependency → about 90 seconds self-serve for key flows.\n\nWhat changed: we removed the need for human guidance at onboarding.\n\nBusiness implication: scale without proportional headcount — the gap existed because the product didn’t support confident self-serve; real-time validation, layout, and trust design closed it.",
+    "body": "New-user activation: ~3 months of AM dependency → about 90 seconds self-serve for key flows.",
     "plain": true,
     "figures": [
       {
@@ -165,7 +165,7 @@
   {
     "kicker": "Impact",
     "title": "The research shaped what came next",
-    "body": "“Search to AI Strategy” initiative built on this research.\n\nDownstream AI features: Advanced Code Search, Codeset Suggestions, AI Cohort Builder.\n\nCompany-wide pivot toward AI-first workflows — design patterns from this project carried into the next product.\n\nReal-time aggregate panels became reusable infrastructure — carried directly into subsequent product work.\n\nAI transparency patterns (surface just enough, make the rest accessible) became a design principle applied across the platform.\n\nThe “AI alongside, not owning” layout principle influenced how the team thought about AI placement in other features.\n\nCodeset architecture introduced here became a foundational component reused in code search and clinical code discovery features.",
+    "body": "Real-time aggregate panels became reusable infrastructure — carried directly into subsequent product work.\n\nAI transparency patterns (surface just enough, make the rest accessible) became a design principle applied across the platform.\n\nThe “AI alongside, not owning” layout principle influenced how the team thought about AI placement in other features.\n\nCodeset architecture introduced here became a foundational component reused in code search and clinical code discovery features.",
     "plain": true,
     "figures": [
       {
@@ -176,7 +176,7 @@
   },
   {
     "title": "What this taught me — and why it matters here",
-    "body": "You’re building agentic AI that takes autonomous actions on behalf of clinicians and patients. The transparency design problem is the same as what I just described — higher stakes, different failure modes. The design discipline is the same.",
+    "body": "",
     "plain": true,
     "learningColumns": [
       {

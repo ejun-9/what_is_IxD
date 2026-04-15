@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, type SVGProps } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef, type SVGProps } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import type { CaseStudyBeat, CaseStudyLeadHighlight } from "@/content/profile";
 import { CASE_STUDY_ICONS } from "@/components/icons/CaseStudyLearningIcons";
@@ -25,6 +25,26 @@ export const KICKER_ACCENTS: Record<string, string> = {
 export const DEFAULT_ACCENT = "#8b7355";
 
 const PRESENTATION_PLACEHOLDER_SRC = "/images/presentation-placeholders/slide-placeholder.svg";
+
+/** Renders `beat.body` with optional **phrase** emphasis (presentation only). */
+function PresentationBeatBody({ text }: { text: string }) {
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return (
+    <>
+      {parts.map((part, i) => {
+        const m = /^\*\*([^*]+)\*\*$/.exec(part);
+        if (m) {
+          return (
+            <strong key={i} className="font-semibold text-white/85">
+              {m[1]}
+            </strong>
+          );
+        }
+        return <span key={i}>{part}</span>;
+      })}
+    </>
+  );
+}
 
 export function kickerAccent(kicker?: string) {
   return kicker ? (KICKER_ACCENTS[kicker] ?? DEFAULT_ACCENT) : DEFAULT_ACCENT;
@@ -92,10 +112,20 @@ export function PresentationSlideshow({
   const total = includeIntroSlide ? beats.length + 1 : beats.length;
   const [current, setCurrent] = useState(0);
   const [dir, setDir] = useState(1);
+  const [slideMenuOpen, setSlideMenuOpen] = useState(false);
+  const slideMenuRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
+
+  const slideLabels = useMemo(() => {
+    if (includeIntroSlide) {
+      return ["Overview", ...beats.map((b) => b.title)];
+    }
+    return beats.map((b) => b.title);
+  }, [includeIntroSlide, beats]);
 
   const go = useCallback(
     (delta: number) => {
+      setSlideMenuOpen(false);
       setDir(delta);
       setCurrent((c) => Math.max(0, Math.min(total - 1, c + delta)));
     },
@@ -103,13 +133,34 @@ export function PresentationSlideshow({
   );
 
   const goTo = useCallback((i: number) => {
+    setSlideMenuOpen(false);
     setDir(i > current ? 1 : -1);
     setCurrent(i);
   }, [current]);
 
   useEffect(() => {
+    if (!slideMenuOpen) return;
+    const onDocDown = (e: MouseEvent) => {
+      const el = slideMenuRef.current;
+      if (el && !el.contains(e.target as Node)) setSlideMenuOpen(false);
+    };
+    document.addEventListener("mousedown", onDocDown);
+    return () => document.removeEventListener("mousedown", onDocDown);
+  }, [slideMenuOpen]);
+
+  useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") { onClose(); return; }
+      if (slideMenuOpen) {
+        if (e.key === "Escape") {
+          e.preventDefault();
+          setSlideMenuOpen(false);
+        }
+        return;
+      }
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
       if (["ArrowRight", "ArrowDown", "PageDown"].includes(e.key)) {
         e.preventDefault(); go(1);
       } else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(e.key)) {
@@ -118,7 +169,7 @@ export function PresentationSlideshow({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [go, onClose]);
+  }, [go, onClose, slideMenuOpen]);
 
   useEffect(() => {
     const prev = document.body.style.overflow;
@@ -155,9 +206,55 @@ export function PresentationSlideshow({
           ) : null}
         </div>
         <div className="flex items-center gap-5">
-          <span className="font-mono text-[11px] text-white/22">
-            {current + 1} / {total}
-          </span>
+          <div ref={slideMenuRef} className="relative flex items-center">
+            <button
+              type="button"
+              onClick={() => setSlideMenuOpen((o) => !o)}
+              className="flex items-center gap-1 rounded px-1.5 py-0.5 font-mono text-[11px] text-white/22 transition hover:bg-white/[0.07] hover:text-white/50"
+              aria-expanded={slideMenuOpen}
+              aria-haspopup="listbox"
+              aria-label={`Slide ${current + 1} of ${total}. Open list of slides.`}
+            >
+              {current + 1} / {total}
+              <span className="text-[9px] leading-none text-white/35" aria-hidden>
+                ▼
+              </span>
+            </button>
+            <AnimatePresence>
+              {slideMenuOpen ? (
+                <motion.div
+                  key="slide-menu"
+                  role="listbox"
+                  aria-label="Slides"
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  className="scrollbar-none absolute right-0 top-full z-[210] mt-1.5 max-h-[min(55vh,22rem)] w-[min(calc(100vw-2rem),20rem)] overflow-y-auto rounded-lg border border-white/[0.1] bg-[#1b1917] py-1 shadow-[0_16px_48px_-8px_rgba(0,0,0,0.55)]"
+                >
+                  {slideLabels.map((label, i) => (
+                    <button
+                      key={`slide-opt-${i}`}
+                      type="button"
+                      role="option"
+                      aria-selected={i === current}
+                      onClick={() => goTo(i)}
+                      className={`flex w-full gap-2 px-3 py-2 text-left text-[11px] leading-snug transition hover:bg-white/[0.06] ${
+                        i === current
+                          ? "bg-white/[0.08] text-white/90"
+                          : "text-white/62 hover:text-white/88"
+                      }`}
+                    >
+                      <span className="w-5 shrink-0 font-mono text-[10px] text-white/30">
+                        {i + 1}
+                      </span>
+                      <span className="min-w-0 line-clamp-4">{label}</span>
+                    </button>
+                  ))}
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          </div>
           <button
             onClick={onClose}
             className="rounded px-2.5 py-1 text-[11px] text-white/32 transition hover:bg-white/[0.07] hover:text-white/60"
@@ -258,7 +355,7 @@ function IntroSlide({
   reduce: boolean;
 }) {
   return (
-    <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-10 py-14 lg:px-16 lg:py-16">
+    <div className="scrollbar-none flex min-h-0 flex-1 flex-col overflow-y-auto px-10 py-14 lg:px-16 lg:py-16">
       <div className="w-full max-w-2xl">
         <motion.div
           variants={reduce ? {} : stagger}
@@ -494,12 +591,12 @@ function TextSlide({
           </div>
 
           {beat.body.trim() ? (
-            <div className="mt-4 min-h-0 flex-1 overflow-y-auto overscroll-y-contain pr-1 [-webkit-overflow-scrolling:touch]">
+            <div className="scrollbar-none mt-4 min-h-0 flex-1 overflow-y-auto overscroll-y-contain pr-1 [-webkit-overflow-scrolling:touch]">
               <motion.p
                 variants={reduce ? {} : itm}
                 className="max-w-none whitespace-pre-line text-base leading-relaxed text-white/48 md:text-lg"
               >
-                {beat.body}
+                <PresentationBeatBody text={beat.body} />
               </motion.p>
             </div>
           ) : null}
@@ -523,7 +620,7 @@ function TextSlide({
         </motion.div>
       </div>
 
-      <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto bg-white/[0.025] px-6 py-8 lg:px-10 lg:py-12">
+      <div className="scrollbar-none flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto bg-white/[0.025] px-6 py-8 lg:px-10 lg:py-12">
         <div className="w-full max-w-2xl">
           <motion.img
             initial={{ opacity: 0, y: 10 }}
@@ -604,12 +701,12 @@ function FigureSlide({
           </div>
 
           {beat.body.trim() ? (
-            <div className="mt-4 min-h-0 flex-1 overflow-y-auto overscroll-y-contain pr-1 [-webkit-overflow-scrolling:touch]">
+            <div className="scrollbar-none mt-4 min-h-0 flex-1 overflow-y-auto overscroll-y-contain pr-1 [-webkit-overflow-scrolling:touch]">
               <motion.p
                 variants={reduce ? {} : itm}
                 className="whitespace-pre-line text-base leading-relaxed text-white/48 md:text-lg"
               >
-                {beat.body}
+                <PresentationBeatBody text={beat.body} />
               </motion.p>
             </div>
           ) : null}
@@ -634,7 +731,7 @@ function FigureSlide({
       </div>
 
       {/* Right: figure (independent scroll if stack is tall) */}
-      <div className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto bg-white/[0.025] px-6 py-8 lg:px-10 lg:py-12">
+      <div className="scrollbar-none flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto bg-white/[0.025] px-6 py-8 lg:px-10 lg:py-12">
         {showImageStack ? (
           <div className="flex w-full max-w-2xl flex-col gap-4">
             {stackedImages.map((fig) => (
@@ -684,7 +781,7 @@ function LearningsSlide({
 }) {
   const cols = beat.learningColumns ?? [];
   return (
-    <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-8 py-12 md:px-12 md:py-14">
+    <div className="scrollbar-none flex min-h-0 flex-1 flex-col overflow-y-auto px-8 py-12 md:px-12 md:py-14">
       <motion.div
         variants={reduce ? {} : stagger}
         initial={reduce ? false : "hidden"}
@@ -725,15 +822,6 @@ function LearningsSlide({
             );
           })}
         </div>
-
-        {beat.body.trim() ? (
-          <motion.p
-            variants={reduce ? {} : itm}
-            className="mt-10 max-w-3xl whitespace-pre-line border-t border-white/[0.08] pt-8 text-base leading-relaxed text-white/50 md:text-lg"
-          >
-            {beat.body}
-          </motion.p>
-        ) : null}
       </motion.div>
     </div>
   );

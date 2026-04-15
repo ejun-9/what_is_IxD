@@ -52,6 +52,17 @@ body {
   max-width: 36rem;
 }
 
+/* Scrollable regions without visible scrollbar (wheel / touch / trackpad still work) */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
 @media (min-width: 768px) {
   .max-w-content {
     max-width: 48rem;

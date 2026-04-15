@@ -140,7 +140,7 @@ export function PresentationSectionRail({ sections }: { sections: PresentationSe
             <p className="mb-1.5 px-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--muted)]">
               Sections
             </p>
-            <ul className="max-h-[min(60vh,24rem)] space-y-0.5 overflow-y-auto">
+            <ul className="scrollbar-none max-h-[min(60vh,24rem)] space-y-0.5 overflow-y-auto">
               {sections.map((s) => (
                 <li key={s.id}>
                   <a
