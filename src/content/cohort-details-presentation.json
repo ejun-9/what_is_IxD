@@ -124,7 +124,7 @@
   },
   {
     "kicker": "AI First experience",
-    "title": "Then we added AI — and found the wrong assumption",
+    "title": "Then we added AI",
     "body": "Same users, same validation patterns.\n\nWe followed the standard agentic pattern: chat-first.",
     "plain": true,
     "figures": [
