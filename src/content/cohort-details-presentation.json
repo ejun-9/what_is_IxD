@@ -196,15 +196,15 @@
     "insightCardGrid": [
       {
         "kicker": "Design decisions",
-        "icon": "confidence",
+        "icon": "sparkles",
         "title": "Building trust through transparency",
         "body": "What we implemented:\n\n1. **Progressive disclosure** — by design.\n\n2. **Surface just enough**, and make everything else easily accessible.\n\n3. **User control** — make it clear everything is modifiable; they can pause or delete anything at any point."
       },
       {
         "kicker": "Outcome",
-        "icon": "activation",
-        "title": "From 3 months to 90 seconds",
-        "body": "Before: New users waited ~3 months for an AM to build their first cohort\n\nAfter: Self-serve in 90 seconds for key flows"
+        "icon": "insight",
+        "title": "AI first cohort builder",
+        "body": "Production ready AI first cohort building experience that users can trust."
       }
     ]
   },
