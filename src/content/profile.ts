@@ -104,6 +104,8 @@ export type CaseStudyBeat = {
   }[];
   /** When true with `textSlideFigures`, render visuals full-width across the slide. */
   textSlideFullWidth?: boolean;
+  /** Figure slide: oversized right-panel image that may extend past the default frame. */
+  figureSlideLargeFigure?: boolean;
   prototypeCta?: CaseStudyPrototypeCta;
   /** Where the prototype CTA sits relative to the beat text and figures. Default `bottom`. */
   prototypeCtaPlacement?: "top" | "bottom";

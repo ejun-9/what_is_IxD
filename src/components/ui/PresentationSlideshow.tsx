@@ -810,6 +810,7 @@ function FigureSlide({
   const hasAnyFigures = figures.length > 0;
   const figureSignature = figures.map((fig) => fig.src).join("|");
   const isActivationProblemSlide = beat.title.trim() === "The activation problem";
+  const largeFigure = Boolean(beat.figureSlideLargeFigure);
   const interactiveFigures = !useCarousel && figures.length > 1 ? figures : null;
   const stackedImages: BeatFigure[] = useCarousel ? figures : [];
   const showImageStack = useCarousel && stackedImages.length > 0;
@@ -819,7 +820,6 @@ function FigureSlide({
   const [activationSecondFrameVisible, setActivationSecondFrameVisible] = useState(false);
   const activationSwapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const interactiveFigure = interactiveFigures ? interactiveFigures[interactiveIndex] : figures[0];
-  const shouldScaleInteractiveFrame = interactiveFigure?.src.includes("frame-16451.svg");
   const decorativePlaceholderZoom =
     !useCarousel && !interactiveFigures && figures.length === 1 && figures[0]?.src.includes("on-hover-we-show-code-name");
 
@@ -943,10 +943,20 @@ function FigureSlide({
       </div>
 
       {/* Right: figure (independent scroll if stack is tall) */}
-      <div className="scrollbar-none flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto bg-white/[0.025] px-6 py-8 lg:px-10 lg:py-12">
-        <div className="w-full max-w-2xl origin-center scale-[0.92]">
+      <div
+        className={`scrollbar-none flex min-h-0 flex-1 flex-col items-center justify-center bg-white/[0.025] px-6 py-8 lg:px-10 lg:py-12 ${
+          largeFigure ? "overflow-visible" : "overflow-y-auto"
+        }`}
+      >
+        <div
+          className={
+            largeFigure
+              ? "w-full max-w-[min(100%,56rem)] origin-center scale-100"
+              : "w-full max-w-2xl origin-center scale-[0.92]"
+          }
+        >
         {isActivationProblemSlide && figures.length >= 2 ? (
-          <div className="relative w-full max-w-2xl">
+          <div className={`relative w-full ${largeFigure ? "max-w-[min(100vw-4rem,64rem)]" : "max-w-2xl"}`}>
             <button
               type="button"
               onClick={handleActivationSlideClick}
@@ -955,7 +965,9 @@ function FigureSlide({
             >
               {!activationSecondFrameVisible ? (
                 <div
-                  className="relative w-full overflow-hidden rounded-xl bg-black/20"
+                  className={`relative w-full rounded-xl bg-black/20 ${
+                    largeFigure ? "overflow-visible" : "overflow-hidden"
+                  }`}
                   style={{ aspectRatio: interactiveAspect ?? 549 / 364 }}
                 >
                   <AnimatePresence mode="sync">
@@ -1000,7 +1012,7 @@ function FigureSlide({
             </button>
           </div>
         ) : showImageStack ? (
-          <div className="flex w-full max-w-2xl flex-col gap-4">
+          <div className={`flex w-full flex-col gap-4 ${largeFigure ? "max-w-[min(100vw-4rem,64rem)]" : "max-w-2xl"}`}>
             {stackedImages.map((fig) => (
               <motion.img
                 key={fig.src}
@@ -1015,7 +1027,7 @@ function FigureSlide({
             ))}
           </div>
         ) : interactiveFigures ? (
-          <div className="relative w-full max-w-2xl">
+          <div className={`relative w-full ${largeFigure ? "max-w-[min(100vw-4rem,64rem)]" : "max-w-2xl"}`}>
             <button
               type="button"
               onClick={handleInteractiveImageClick}
@@ -1023,7 +1035,9 @@ function FigureSlide({
               aria-label="Show next image"
             >
               <div
-                className="relative w-full overflow-hidden rounded-xl bg-black/20"
+                className={`relative w-full rounded-xl bg-black/20 ${
+                  largeFigure ? "overflow-visible" : "overflow-hidden"
+                }`}
                 style={{ aspectRatio: interactiveAspect ?? 549 / 364 }}
               >
                 <AnimatePresence mode="sync">
@@ -1035,9 +1049,11 @@ function FigureSlide({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.08, ease: "linear" }}
-                    className={`absolute right-0 bottom-0 h-full w-full object-contain transition-transform duration-150 ${
-                      shouldScaleInteractiveFrame ? "scale-[1.06]" : "scale-100"
-                    }`}
+                    className={
+                      largeFigure
+                        ? "absolute left-1/2 top-1/2 h-[118%] w-[118%] max-w-none -translate-x-1/2 -translate-y-1/2 object-contain transition-transform duration-150"
+                        : "absolute right-0 bottom-0 h-full w-full object-contain transition-transform duration-150 scale-100"
+                    }
                     draggable={false}
                     onLoad={handleInteractiveImageLoad}
                   />
@@ -1046,17 +1062,29 @@ function FigureSlide({
             </button>
           </div>
         ) : hasAnyFigures ? (
-          <div className="relative w-full max-w-2xl">
+          <div
+            className={`relative w-full ${largeFigure ? "max-w-[min(100vw-4rem,64rem)] overflow-visible" : "max-w-2xl"}`}
+          >
             <AnimatePresence mode="wait">
               <motion.img
                 key={figures[0]?.src}
                 src={figures[0]?.src}
                 alt={figures[0]?.alt ?? ""}
                 initial={{ opacity: 0, scale: 0.97 }}
-                animate={{ opacity: 1, scale: decorativePlaceholderZoom ? 1.08 : 1 }}
+                animate={{
+                  opacity: largeFigure ? 0.6 : 1,
+                  scale:
+                    largeFigure && decorativePlaceholderZoom
+                      ? 1.32
+                      : decorativePlaceholderZoom
+                        ? 1.08
+                        : largeFigure
+                          ? 1.2
+                          : 1,
+                }}
                 exit={{ opacity: 0, scale: 0.97 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
-                className="block h-auto w-full rounded-xl"
+                className={`block h-auto w-full rounded-xl ${largeFigure ? "origin-center" : ""}`}
                 draggable={false}
               />
             </AnimatePresence>

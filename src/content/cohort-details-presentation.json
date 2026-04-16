@@ -4,6 +4,7 @@
     "title": "Who uses cohort tools and why it matters",
     "body": "Healthcare data analysts define patient populations for research and clinical analysis.\n\nCohort building is the no-code way to group patients by disease, demographics, enrollment, and more.",
     "plain": true,
+    "figureSlideLargeFigure": true,
     "figures": [
       {
         "src": "/images/presentation-placeholders/on-hover-we-show-code-name.svg",
