@@ -63,6 +63,15 @@ export type CaseStudyLearningColumn = {
   icon?: CaseStudyIconKey;
 };
 
+/** One card in a merged multi-beat grid (presentation). */
+export type CaseStudyInsightCard = {
+  kicker?: string;
+  title: string;
+  body: string;
+  icon?: CaseStudyIconKey;
+  prototypeCta?: CaseStudyPrototypeCta;
+};
+
 export type CaseStudyBeat = {
   kicker?: string;
   title: string;
@@ -71,6 +80,12 @@ export type CaseStudyBeat = {
   icon?: CaseStudyIconKey;
   /** Three-up takeaways (e.g. Learnings). When set, render a column grid below the title. */
   learningColumns?: CaseStudyLearningColumn[];
+  /** Multiple narrative cards on one slide (e.g. merged beats). Checked before `figures`. */
+  insightCardGrid?: CaseStudyInsightCard[];
+  /** Single insight card below the body on figure slides (same visual as `insightCardGrid` cards). */
+  figureSlideInsightCard?: CaseStudyInsightCard;
+  /** Text-only slide: no right image panel (presentation). */
+  presentationTextOnly?: boolean;
   /** No card border; use for hero-style problem slides. */
   plain?: boolean;
   /** SVG paths under public/ with scroll-zoom. */
@@ -82,6 +97,13 @@ export type CaseStudyBeat = {
   }[];
   /** When true, `figures` use a horizontal scroll carousel (slide + zoom) instead of per-image zoom. */
   figuresCarousel?: boolean;
+  /** Optional right-panel images for text-only slides (e.g. two-up visual comparison). */
+  textSlideFigures?: {
+    src: string;
+    alt: string;
+  }[];
+  /** When true with `textSlideFigures`, render visuals full-width across the slide. */
+  textSlideFullWidth?: boolean;
   prototypeCta?: CaseStudyPrototypeCta;
   /** Where the prototype CTA sits relative to the beat text and figures. Default `bottom`. */
   prototypeCtaPlacement?: "top" | "bottom";

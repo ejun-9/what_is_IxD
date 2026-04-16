@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo, useRef, type SVGProps } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef, type SVGProps, type SyntheticEvent } from "react";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import type { CaseStudyBeat, CaseStudyLeadHighlight } from "@/content/profile";
+import type { CaseStudyBeat, CaseStudyInsightCard, CaseStudyLeadHighlight } from "@/content/profile";
 import { CASE_STUDY_ICONS } from "@/components/icons/CaseStudyLearningIcons";
 
 type BeatFigure = NonNullable<CaseStudyBeat["figures"]>[number];
@@ -19,12 +19,13 @@ export const KICKER_ACCENTS: Record<string, string> = {
   "Insight":            "#8b7355",  // base accent
   "Context & stakes":   "#c4604a",
   "Research":           "#a08860",
+  "AI First experience": "#a08860",
   "Design decisions":   "#6a9a6a",
   "Impact":             "#c8a840",
 };
 export const DEFAULT_ACCENT = "#8b7355";
 
-const PRESENTATION_PLACEHOLDER_SRC = "/images/presentation-placeholders/slide-placeholder.svg";
+const PRESENTATION_PLACEHOLDER_SRC = "/images/presentation-placeholders/on-hover-we-show-code-name.svg";
 
 /** Renders `beat.body` with optional **phrase** emphasis (presentation only). */
 function PresentationBeatBody({ text }: { text: string }) {
@@ -57,12 +58,14 @@ export function presentationSectionLabel(
 ): string | null {
   if (isIntro) return "Context";
   if (!beat) return null;
+  if (beat.insightCardGrid?.length) return "Design";
   if (beat.learningColumns?.length) return "Learnings";
   const k = beat.kicker?.trim();
   if (!k) return null;
   const byKicker: Record<string, string> = {
     "Context & stakes": "Context",
     Research: "Research",
+    "AI First experience": "AI First experience",
     "Design decisions": "Design",
     Process: "Process",
     Outcome: "Outcome",
@@ -518,8 +521,12 @@ function SlideContent({ beat, accent, reduce }: { beat: CaseStudyBeat; accent: s
   const figures = beat.figures ?? [];
   const hasFigure = figures.length > 0;
   const hasLearningColumns = Boolean(beat.learningColumns?.length);
+  const hasInsightCardGrid = Boolean(beat.insightCardGrid?.length);
   const useCarousel = Boolean(beat.figuresCarousel && figures.length > 1);
 
+  if (hasInsightCardGrid && beat.insightCardGrid) {
+    return <InsightCardGridSlide beat={beat} accent={accent} reduce={reduce} />;
+  }
   if (hasLearningColumns && beat.learningColumns) {
     return <LearningsSlide beat={beat} accent={accent} reduce={reduce} />;
   }
@@ -554,6 +561,124 @@ function TextSlide({
   reduce: boolean;
 }) {
   const prototypeHref = beat.prototypeCta?.href?.trim() ?? "";
+  const textSlideFigures = beat.textSlideFigures ?? [];
+  const useTextSlideTwoUp = textSlideFigures.length >= 2;
+
+  if (beat.presentationTextOnly) {
+    return (
+      <div className="scrollbar-none flex min-h-0 flex-1 flex-col overflow-y-auto px-8 py-12 md:px-16 md:py-16">
+        <motion.div
+          variants={reduce ? {} : stagger}
+          initial={reduce ? false : "hidden"}
+          animate="show"
+          className="mx-auto flex w-full max-w-3xl flex-1 flex-col"
+        >
+          <div className="shrink-0">
+            {beat.kicker ? (
+              <motion.div variants={reduce ? {} : itm}>
+                <KickerLabel kicker={beat.kicker} accent={accent} />
+              </motion.div>
+            ) : null}
+            {BeatIcon ? (
+              <motion.div variants={reduce ? {} : itm} className="mb-5">
+                <span
+                  className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/12"
+                  style={{ color: accent, background: `${accent}1a` }}
+                >
+                  <BeatIcon className="h-6 w-6" />
+                </span>
+              </motion.div>
+            ) : null}
+            {beat.title.trim() ? (
+              <motion.h2
+                variants={reduce ? {} : itm}
+                className="font-display font-medium leading-[1.1] tracking-tight text-white"
+                style={{ fontSize: "clamp(1.75rem, 3.2vw, 3rem)" }}
+              >
+                {beat.title}
+              </motion.h2>
+            ) : null}
+          </div>
+          {beat.body.trim() ? (
+            <div className="scrollbar-none mt-4 min-h-0 flex-1 overflow-y-auto overscroll-y-contain pr-1 [-webkit-overflow-scrolling:touch]">
+              <motion.p
+                variants={reduce ? {} : itm}
+                className="max-w-none whitespace-pre-line text-base leading-relaxed text-white/48 md:text-lg"
+              >
+                <PresentationBeatBody text={beat.body} />
+              </motion.p>
+            </div>
+          ) : null}
+          {beat.prototypeCta && prototypeHref ? (
+            <motion.div variants={reduce ? {} : itm} className="mt-8 shrink-0 border-t border-transparent pt-2">
+              <p className="mb-2.5 text-[11px] font-medium tracking-[0.14em] uppercase text-white/28">
+                {beat.prototypeCta.intro}
+              </p>
+              <a
+                href={prototypeHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition hover:opacity-75"
+                style={{ borderColor: accent, color: accent }}
+              >
+                {beat.prototypeCta.label} ↗
+              </a>
+            </motion.div>
+          ) : null}
+        </motion.div>
+      </div>
+    );
+  }
+  const displayedTextSlideFigures = textSlideFigures.slice(0, 2);
+  const textSlideImageClass =
+    "mx-auto block aspect-[4/3] w-full overflow-hidden rounded-[3rem] object-contain p-2";
+  const textSlideSingleFullWidthImageClass =
+    "mx-auto block h-auto w-full max-w-[96%] overflow-hidden rounded-[3rem] object-contain p-2";
+  const textSlideGridClass =
+    displayedTextSlideFigures.length >= 2
+      ? "mx-auto grid w-full grid-cols-1 justify-items-center gap-4 md:grid-cols-2"
+      : "mx-auto grid w-full max-w-6xl grid-cols-1 justify-items-center gap-4";
+  const useTextSlideFullWidth = Boolean(beat.textSlideFullWidth) && textSlideFigures.length >= 1;
+  if (useTextSlideFullWidth) {
+    return (
+      <div className="scrollbar-none flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto bg-white/[0.025] px-6 py-8 lg:px-10 lg:py-12">
+        <div className="flex min-h-0 w-full max-w-6xl flex-col">
+          <p className="mb-2.5 shrink-0 text-center text-[11px] font-medium tracking-[0.14em] uppercase text-white/28">
+            Design Decisions
+          </p>
+          <div className={textSlideGridClass}>
+            {displayedTextSlideFigures.map((fig) => (
+              <div key={fig.src} className="min-h-0 w-full">
+                {displayedTextSlideFigures.length === 1 ? (
+                  <div className="scrollbar-none max-h-[min(88vh,960px)] w-full overflow-y-auto overflow-x-hidden">
+                    <motion.img
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      src={fig.src}
+                      alt={fig.alt}
+                      className={textSlideSingleFullWidthImageClass}
+                      draggable={false}
+                    />
+                  </div>
+                ) : (
+                  <motion.img
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
+                    src={fig.src}
+                    alt={fig.alt}
+                    className={textSlideImageClass}
+                    draggable={false}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
       <div className="flex min-h-0 flex-col px-8 py-12 lg:w-[42%] lg:px-12 lg:py-16">
@@ -581,13 +706,15 @@ function TextSlide({
               </motion.div>
             ) : null}
 
-            <motion.h2
-              variants={reduce ? {} : itm}
-              className="font-display font-medium leading-[1.1] tracking-tight text-white"
-              style={{ fontSize: "clamp(1.75rem, 3.2vw, 3rem)" }}
-            >
-              {beat.title}
-            </motion.h2>
+            {beat.title.trim() ? (
+              <motion.h2
+                variants={reduce ? {} : itm}
+                className="font-display font-medium leading-[1.1] tracking-tight text-white"
+                style={{ fontSize: "clamp(1.75rem, 3.2vw, 3rem)" }}
+              >
+                {beat.title}
+              </motion.h2>
+            ) : null}
           </div>
 
           {beat.body.trim() ? (
@@ -621,20 +748,43 @@ function TextSlide({
       </div>
 
       <div className="scrollbar-none flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto bg-white/[0.025] px-6 py-8 lg:px-10 lg:py-12">
-        <div className="w-full max-w-2xl">
-          <motion.img
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            src={PRESENTATION_PLACEHOLDER_SRC}
-            alt="Placeholder"
-            className="block h-auto w-full rounded-xl"
-            draggable={false}
-          />
-          <p className="mt-3 text-center font-mono text-[11px] tracking-[0.08em] text-white/22">
-            placeholder@email.com
-          </p>
-        </div>
+        {useTextSlideTwoUp ? (
+          <div className="w-full max-w-3xl">
+            <p className="mb-2.5 text-center text-[11px] font-medium tracking-[0.14em] uppercase text-white/28">
+              Design Decisions
+            </p>
+            <div className={textSlideGridClass}>
+              {displayedTextSlideFigures.map((fig) => (
+                <div key={fig.src} className="block w-full">
+                  <motion.img
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.25, ease: "easeOut" }}
+                    src={fig.src}
+                    alt={fig.alt}
+                    className={textSlideImageClass}
+                    draggable={false}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div className="w-full max-w-2xl">
+            <motion.img
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              src={PRESENTATION_PLACEHOLDER_SRC}
+              alt="Placeholder"
+              className="block h-auto w-full rounded-xl"
+              draggable={false}
+            />
+            <p className="mt-3 text-center font-mono text-[11px] tracking-[0.08em] text-white/22">
+              placeholder@email.com
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -657,11 +807,63 @@ function FigureSlide({
   reduce: boolean;
 }) {
   const prototypeHref = beat.prototypeCta?.href?.trim() ?? "";
-  const pairedFigures =
-    Boolean(figures[0]?.clickRevealCaption?.trim() && figures[1]) ? figures.slice(0, 2) : null;
-  const stackedImages: BeatFigure[] = useCarousel ? figures : pairedFigures ?? [];
-  const showImageStack =
-    stackedImages.length > 0 && (useCarousel || Boolean(pairedFigures));
+  const hasAnyFigures = figures.length > 0;
+  const figureSignature = figures.map((fig) => fig.src).join("|");
+  const isActivationProblemSlide = beat.title.trim() === "The activation problem";
+  const interactiveFigures = !useCarousel && figures.length > 1 ? figures : null;
+  const stackedImages: BeatFigure[] = useCarousel ? figures : [];
+  const showImageStack = useCarousel && stackedImages.length > 0;
+  const [interactiveIndex, setInteractiveIndex] = useState(0);
+  const [interactiveAspect, setInteractiveAspect] = useState<number | null>(null);
+  const [showActivationOverlay, setShowActivationOverlay] = useState(false);
+  const [activationSecondFrameVisible, setActivationSecondFrameVisible] = useState(false);
+  const activationSwapTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const interactiveFigure = interactiveFigures ? interactiveFigures[interactiveIndex] : figures[0];
+  const shouldScaleInteractiveFrame = interactiveFigure?.src.includes("frame-16451.svg");
+  const decorativePlaceholderZoom =
+    !useCarousel && !interactiveFigures && figures.length === 1 && figures[0]?.src.includes("on-hover-we-show-code-name");
+
+  useEffect(() => {
+    setInteractiveIndex(0);
+    setInteractiveAspect(null);
+  }, [beat.title, interactiveFigures?.map((fig) => fig.src).join("|")]);
+
+  useEffect(() => {
+    setShowActivationOverlay(false);
+    setActivationSecondFrameVisible(false);
+    if (activationSwapTimeoutRef.current) {
+      clearTimeout(activationSwapTimeoutRef.current);
+      activationSwapTimeoutRef.current = null;
+    }
+    return () => {
+      if (activationSwapTimeoutRef.current) {
+        clearTimeout(activationSwapTimeoutRef.current);
+        activationSwapTimeoutRef.current = null;
+      }
+    };
+  }, [beat.title, figureSignature]);
+
+  const handleInteractiveImageClick = () => {
+    if (!interactiveFigures?.length) return;
+    setInteractiveIndex((idx) => (idx + 1) % interactiveFigures.length);
+  };
+
+  const handleInteractiveImageLoad = (e: SyntheticEvent<HTMLImageElement>) => {
+    const { naturalWidth, naturalHeight } = e.currentTarget;
+    if (!naturalWidth || !naturalHeight) return;
+    if (interactiveAspect) return;
+    setInteractiveAspect(naturalWidth / naturalHeight);
+  };
+
+  const handleActivationSlideClick = () => {
+    if (!isActivationProblemSlide || showActivationOverlay || activationSecondFrameVisible) return;
+    setShowActivationOverlay(true);
+    activationSwapTimeoutRef.current = setTimeout(() => {
+      setShowActivationOverlay(false);
+      setActivationSecondFrameVisible(true);
+      activationSwapTimeoutRef.current = null;
+    }, 2200);
+  };
 
   return (
     <div className="flex min-h-0 flex-1 flex-col lg:flex-row">
@@ -700,14 +902,24 @@ function FigureSlide({
             </motion.h2>
           </div>
 
-          {beat.body.trim() ? (
+          {beat.body.trim() || beat.figureSlideInsightCard ? (
             <div className="scrollbar-none mt-4 min-h-0 flex-1 overflow-y-auto overscroll-y-contain pr-1 [-webkit-overflow-scrolling:touch]">
-              <motion.p
-                variants={reduce ? {} : itm}
-                className="whitespace-pre-line text-base leading-relaxed text-white/48 md:text-lg"
-              >
-                <PresentationBeatBody text={beat.body} />
-              </motion.p>
+              {beat.body.trim() ? (
+                <motion.p
+                  variants={reduce ? {} : itm}
+                  className="whitespace-pre-line text-base leading-relaxed text-white/48 md:text-lg"
+                >
+                  <PresentationBeatBody text={beat.body} />
+                </motion.p>
+              ) : null}
+              {beat.figureSlideInsightCard ? (
+                <InsightCardPresentation
+                  card={beat.figureSlideInsightCard}
+                  beatAccent={accent}
+                  reduce={reduce}
+                  layout="inline"
+                />
+              ) : null}
             </div>
           ) : null}
 
@@ -732,7 +944,62 @@ function FigureSlide({
 
       {/* Right: figure (independent scroll if stack is tall) */}
       <div className="scrollbar-none flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto bg-white/[0.025] px-6 py-8 lg:px-10 lg:py-12">
-        {showImageStack ? (
+        <div className="w-full max-w-2xl origin-center scale-[0.92]">
+        {isActivationProblemSlide && figures.length >= 2 ? (
+          <div className="relative w-full max-w-2xl">
+            <button
+              type="button"
+              onClick={handleActivationSlideClick}
+              className="group relative block w-full text-left"
+              aria-label="Simulate 60 minute wait"
+            >
+              {!activationSecondFrameVisible ? (
+                <div
+                  className="relative w-full overflow-hidden rounded-xl bg-black/20"
+                  style={{ aspectRatio: interactiveAspect ?? 549 / 364 }}
+                >
+                  <AnimatePresence mode="sync">
+                    <motion.img
+                      key={figures[0]?.src}
+                      src={figures[0]?.src}
+                      alt={figures[0]?.alt ?? ""}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.1, ease: "linear" }}
+                      className={`absolute right-0 bottom-0 h-full w-full object-contain transition-opacity duration-300 ${
+                        showActivationOverlay ? "opacity-35" : "opacity-100"
+                      }`}
+                      draggable={false}
+                      onLoad={handleInteractiveImageLoad}
+                    />
+                  </AnimatePresence>
+                  {showActivationOverlay ? (
+                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                      <div className="inline-flex items-center gap-2 rounded-full border border-white/35 bg-black/55 px-4 py-2 text-xs font-medium tracking-[0.08em] uppercase text-white/90 backdrop-blur-sm">
+                        <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/85 border-t-transparent" />
+                        60 mins later...
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              ) : (
+                <div className="scrollbar-none max-h-[min(85vh,900px)] w-full overflow-y-auto overflow-x-hidden rounded-xl bg-black/20">
+                  <motion.img
+                    key={figures[1]?.src}
+                    src={figures[1]?.src}
+                    alt={figures[1]?.alt ?? ""}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                    className="block h-auto w-full max-w-full"
+                    draggable={false}
+                  />
+                </div>
+              )}
+            </button>
+          </div>
+        ) : showImageStack ? (
           <div className="flex w-full max-w-2xl flex-col gap-4">
             {stackedImages.map((fig) => (
               <motion.img
@@ -747,7 +1014,38 @@ function FigureSlide({
               />
             ))}
           </div>
-        ) : (
+        ) : interactiveFigures ? (
+          <div className="relative w-full max-w-2xl">
+            <button
+              type="button"
+              onClick={handleInteractiveImageClick}
+              className="group relative block w-full text-left"
+              aria-label="Show next image"
+            >
+              <div
+                className="relative w-full overflow-hidden rounded-xl bg-black/20"
+                style={{ aspectRatio: interactiveAspect ?? 549 / 364 }}
+              >
+                <AnimatePresence mode="sync">
+                  <motion.img
+                    key={interactiveFigure?.src}
+                    src={interactiveFigure?.src}
+                    alt={interactiveFigure?.alt ?? ""}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.08, ease: "linear" }}
+                    className={`absolute right-0 bottom-0 h-full w-full object-contain transition-transform duration-150 ${
+                      shouldScaleInteractiveFrame ? "scale-[1.06]" : "scale-100"
+                    }`}
+                    draggable={false}
+                    onLoad={handleInteractiveImageLoad}
+                  />
+                </AnimatePresence>
+              </div>
+            </button>
+          </div>
+        ) : hasAnyFigures ? (
           <div className="relative w-full max-w-2xl">
             <AnimatePresence mode="wait">
               <motion.img
@@ -755,7 +1053,7 @@ function FigureSlide({
                 src={figures[0]?.src}
                 alt={figures[0]?.alt ?? ""}
                 initial={{ opacity: 0, scale: 0.97 }}
-                animate={{ opacity: 1, scale: 1 }}
+                animate={{ opacity: 1, scale: decorativePlaceholderZoom ? 1.08 : 1 }}
                 exit={{ opacity: 0, scale: 0.97 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 className="block h-auto w-full rounded-xl"
@@ -763,8 +1061,112 @@ function FigureSlide({
               />
             </AnimatePresence>
           </div>
-        )}
+        ) : null}
+        </div>
       </div>
+    </div>
+  );
+}
+
+/** Same shell as cards in `InsightCardGridSlide` — grid columns vs inline under figure-slide body. */
+function InsightCardPresentation({
+  card,
+  beatAccent,
+  reduce,
+  layout,
+}: {
+  card: CaseStudyInsightCard;
+  beatAccent: string;
+  reduce: boolean;
+  layout: "grid" | "inline";
+}) {
+  const cardAccent = kickerAccent(card.kicker);
+  const Icon = card.icon ? CASE_STUDY_ICONS[card.icon] : null;
+  const ctaHref = card.prototypeCta?.href?.trim() ?? "";
+  const shellClass =
+    layout === "grid"
+      ? "flex min-h-0 flex-col rounded-2xl border border-white/[0.09] p-6 md:min-h-[min(520px,70vh)] md:p-7"
+      : "mt-6 flex min-h-0 flex-col rounded-2xl border border-white/[0.09] p-6 md:p-7";
+
+  return (
+    <motion.div variants={reduce ? {} : itm} className={shellClass} style={{ background: `${beatAccent}0d` }}>
+      {card.kicker ? (
+        <div className="mb-4">
+          <KickerLabel kicker={card.kicker} accent={cardAccent} />
+        </div>
+      ) : null}
+      {Icon ? (
+        <span
+          className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-xl border border-white/10"
+          style={{ color: cardAccent, background: `${cardAccent}20` }}
+        >
+          <Icon className="h-5 w-5" />
+        </span>
+      ) : null}
+      <h3 className="mb-3 text-base font-medium leading-snug text-white md:text-[17px]">{card.title}</h3>
+      <div className="min-h-0 flex-1 text-left whitespace-pre-line text-sm leading-relaxed text-white/48 md:text-base">
+        <PresentationBeatBody text={card.body} />
+      </div>
+      {card.prototypeCta && ctaHref ? (
+        <motion.div variants={reduce ? {} : itm} className="mt-5 shrink-0 border-t border-white/[0.08] pt-4">
+          <p className="mb-2.5 text-[11px] font-medium tracking-[0.14em] uppercase text-white/28">
+            {card.prototypeCta.intro}
+          </p>
+          <a
+            href={ctaHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium transition hover:opacity-75"
+            style={{ borderColor: cardAccent, color: cardAccent }}
+          >
+            {card.prototypeCta.label} ↗
+          </a>
+        </motion.div>
+      ) : null}
+    </motion.div>
+  );
+}
+
+/* ─── Merged beats: 3-column card grid (trust / process / outcome) ─── */
+function InsightCardGridSlide({
+  beat,
+  accent,
+  reduce,
+}: {
+  beat: CaseStudyBeat;
+  accent: string;
+  reduce: boolean;
+}) {
+  const cards = beat.insightCardGrid ?? [];
+  return (
+    <div className="scrollbar-none flex min-h-0 flex-1 flex-col overflow-y-auto px-8 py-12 md:px-12 md:py-14">
+      <motion.div
+        variants={reduce ? {} : stagger}
+        initial={reduce ? false : "hidden"}
+        animate="show"
+        className="mx-auto w-full max-w-6xl"
+      >
+        {beat.title.trim() ? (
+          <motion.h2
+            variants={reduce ? {} : itm}
+            className="mb-8 font-display text-3xl font-medium tracking-tight text-white md:mb-10 md:text-4xl"
+          >
+            {beat.title}
+          </motion.h2>
+        ) : null}
+
+        <div className="grid gap-5 md:grid-cols-3 md:gap-7">
+          {cards.map((card, i) => (
+            <InsightCardPresentation
+              key={`${card.title}-${i}`}
+              card={card}
+              beatAccent={accent}
+              reduce={reduce}
+              layout="grid"
+            />
+          ))}
+        </div>
+      </motion.div>
     </div>
   );
 }

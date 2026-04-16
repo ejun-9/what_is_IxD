@@ -6,7 +6,7 @@
     "plain": true,
     "figures": [
       {
-        "src": "/images/presentation-placeholders/slide-placeholder.svg",
+        "src": "/images/presentation-placeholders/on-hover-we-show-code-name.svg",
         "alt": "Placeholder image"
       }
     ]
@@ -14,83 +14,155 @@
   {
     "kicker": "Context & stakes",
     "title": "The activation problem",
-    "body": "Legacy tool (Prism): configure → submit → wait 30–60 min → report.\n\nNew users depended on account managers for ~3 months before independent use. Most people didn’t build cohorts daily — they relied on AMs as a crutch.\n\nThis wasn’t just a UX problem. It was a business model problem: you can’t scale if every new user needs a human guide.",
+    "body": "Legacy tool (Prism): configure → submit → wait 30–60 min → report.\n\nNew users depended on account managers for ~3 months before independent use. Most people didn’t build cohorts daily — they relied on AMs as a crutch.",
     "plain": true,
     "figures": [
       {
-        "src": "/images/presentation-placeholders/slide-placeholder.svg",
-        "alt": "Placeholder image (before)",
-        "clickRevealCaption": "30–60 min later"
+        "src": "/images/presentation-placeholders/og.svg",
+        "alt": "OG"
       },
       {
-        "src": "/images/presentation-placeholders/slide-placeholder-reveal.svg",
-        "alt": "Placeholder image (after)"
+        "src": "/images/presentation-placeholders/dashboard.svg",
+        "alt": "Dashboard"
       }
     ]
   },
   {
     "kicker": "Research",
-    "title": "We started with the foundation problem",
-    "body": "Users couldn’t see what they were building in real time.\n\nNo feedback loop meant building blind, low confidence, and account-manager dependency.\n\nWhat does “confident” look like for a user building cohorts?\n\nWe ran user interviews and usability sessions on the existing flow.",
+    "title": "Discovery",
+    "body": "What does “confident” look like for a user building cohorts?\n\nWe ran user interviews and usability sessions on the existing flow.\n\nUsers couldn’t see what they were building in real time.",
     "plain": true,
     "figures": [
       {
-        "src": "/images/presentation-placeholders/slide-placeholder.svg",
-        "alt": "Placeholder image"
+        "src": "/images/presentation-placeholders/frame-16451.svg",
+        "alt": "Frame 16451"
+      },
+      {
+        "src": "/images/presentation-placeholders/frame-16450.svg",
+        "alt": "Frame 16450"
+      },
+      {
+        "src": "/images/presentation-placeholders/frame-16449.svg",
+        "alt": "Frame 16449"
+      },
+      {
+        "src": "/images/presentation-placeholders/on-hover-we-show-code-name-desktop.svg",
+        "alt": "On hover we show code name"
       }
     ]
   },
   {
-    "kicker": "Research",
+    "kicker": "Design decision",
     "title": "Designing real-time validation",
-    "body": "Aggregate panels: counts and visualizations as you build.\n\nCustomizable panels — cohort-building has multiple use cases.\n\nEarly prototypes, tested with analysts — use the carousel for 2–3 iteration screens.\n\nKey decision: what aggregates to surface by default vs. what to make accessible but not default.",
+    "body": "Aggregate panels: counts and visualizations as you build.\n\nKey decision: what aggregates to surface by default vs. what to make accessible but not default.",
     "plain": true,
-    "figuresCarousel": true,
     "figures": [
       {
-        "src": "/images/presentation-placeholders/slide-placeholder.svg",
-        "alt": "Placeholder image 1 of 4"
+        "src": "/images/presentation-placeholders/cohort-builder-og-screen.svg",
+        "alt": "Cohort Builder OG Screen"
       },
       {
-        "src": "/images/presentation-placeholders/slide-placeholder-reveal.svg",
-        "alt": "Placeholder image 2 of 4"
-      },
-      {
-        "src": "/images/presentation-placeholders/slide-placeholder.svg",
-        "alt": "Placeholder image 3 of 4"
-      },
-      {
-        "src": "/images/presentation-placeholders/slide-placeholder-reveal.svg",
-        "alt": "Placeholder image 4 of 4"
+        "src": "/images/presentation-placeholders/2.svg",
+        "alt": "Cohort Builder alternate screen"
       }
     ]
   },
   {
-    "kicker": "Research",
-    "title": "Then we added AI — and found the wrong assumption",
-    "body": "Same users, same cohort problem. They didn’t trust the AI output.\n\nWe followed the standard agentic pattern: chat-first.\n\nAssumption baked in: users would keep chatting with the AI throughout the session.\n\nResearch showed: they didn’t. One prompt, then back to point-and-click — about three weeks building in the wrong direction.",
+    "kicker": "Design decision",
+    "title": "",
+    "body": "",
     "plain": true,
-    "figuresCarousel": true,
-    "figures": [
+    "textSlideFullWidth": true,
+    "textSlideFigures": [
       {
-        "src": "/images/presentation-placeholders/slide-placeholder.svg",
-        "alt": "Placeholder image 1 of 2"
+        "src": "/images/presentation-placeholders/frame-16446.svg",
+        "alt": "Codeset"
       },
       {
-        "src": "/images/presentation-placeholders/slide-placeholder-reveal.svg",
-        "alt": "Placeholder image 2 of 2"
+        "src": "/images/presentation-placeholders/codesets.svg",
+        "alt": "Codesets"
+      }
+    ]
+  },
+  {
+    "kicker": "Design decision",
+    "title": "",
+    "body": "",
+    "plain": true,
+    "textSlideFullWidth": true,
+    "textSlideFigures": [
+      {
+        "src": "/images/presentation-placeholders/frame-16445-desktop.svg",
+        "alt": "Many buttons"
+      },
+      {
+        "src": "/images/presentation-placeholders/11111.svg",
+        "alt": "11111"
+      }
+    ]
+  },
+  {
+    "kicker": "Design decision",
+    "title": "",
+    "body": "",
+    "plain": true,
+    "textSlideFullWidth": true,
+    "textSlideFigures": [
+      {
+        "src": "/images/presentation-placeholders/1234567.svg",
+        "alt": "Sample 2"
+      }
+    ]
+  },
+  {
+    "kicker": "Impact",
+    "title": "The research shaped what came next",
+    "body": "We saw how users searched for codes, validated their criteria, and iterated on their cohort definitions. That became the foundation for how we designed future products.\n\nThe aggregate panel pattern we built became reusable infrastructure in code search and clinical discovery.\n\nThe interaction model for modifying and validating cohorts became a design pattern we applied in future products.",
+    "plain": true,
+    "presentationTextOnly": true
+  },
+  {
+    "kicker": "AI First experience",
+    "title": "Then we added AI — and found the wrong assumption",
+    "body": "Same users, same validation patterns.\n\nWe followed the standard agentic pattern: chat-first.",
+    "plain": true,
+    "figures": [
+      {
+        "src": "/images/presentation-placeholders/prism-demo.svg",
+        "alt": "Prism demo screen"
       }
     ]
   },
   {
     "kicker": "Design decisions",
     "title": "The behavioral insight that changed everything",
-    "body": "Actual usage: analysts moved between familiar tools and occasional AI help.\n\nThey wanted AI within reach — not AI owning the experience.\n\nUser voice (paraphrased): “I’m not trying to live in chat — I need the builder.”\n\nReframe: the winning layout should match how people actually work, not how we assumed they would.",
+    "body": "Actual usage: analysts moved between familiar tools and occasional AI help.\n\nThey wanted AI within reach — not AI owning the experience.\n\nUser voice (paraphrased): “I’m not trying to live in chat — I need the builder.”",
     "plain": true,
+    "figureSlideInsightCard": {
+      "kicker": "Process",
+      "title": "Engineering in the room from day one",
+      "body": "Not a handoff — engineers in research sessions.\n\nPrototyped with Figma Make for rapid live testing — faster feedback loops.\n\nWhen research changed direction (week 3 pivot), engineering moved with us because they understood the why."
+    },
     "figures": [
       {
-        "src": "/images/presentation-placeholders/slide-placeholder.svg",
-        "alt": "Placeholder image"
+        "src": "/images/presentation-placeholders/behavrio-2.svg",
+        "alt": "Behavior 2"
+      },
+      {
+        "src": "/images/presentation-placeholders/image-118.svg",
+        "alt": "Image 118"
+      },
+      {
+        "src": "/images/presentation-placeholders/frame-16358.svg",
+        "alt": "Frame 16358"
+      },
+      {
+        "src": "/images/presentation-placeholders/frame-16359.svg",
+        "alt": "Frame 16359"
+      },
+      {
+        "src": "/images/presentation-placeholders/frame-16360.svg",
+        "alt": "Frame 16360"
       }
     ]
   },
@@ -99,78 +171,39 @@
     "title": "The new layout — AI alongside, not in charge",
     "body": "New layout, familiar and comfortable.\n\nAI: accessible and reachable, not dominant.",
     "plain": true,
-    "figuresCarousel": true,
+    "prototypeCta": {
+      "intro": "View clickable prototype:",
+      "label": "check out the vibe coded prototype ;)",
+      "href": "https://prism-prototype-sigma.vercel.app/"
+    },
     "figures": [
       {
-        "src": "/images/presentation-placeholders/slide-placeholder.svg",
-        "alt": "Placeholder image 1 of 4"
+        "src": "/images/presentation-placeholders/frame-16447-desktop.svg",
+        "alt": "New layout"
       },
       {
-        "src": "/images/presentation-placeholders/slide-placeholder-reveal.svg",
-        "alt": "Placeholder image 2 of 4"
-      },
-      {
-        "src": "/images/presentation-placeholders/slide-placeholder.svg",
-        "alt": "Placeholder image 3 of 4"
-      },
-      {
-        "src": "/images/presentation-placeholders/slide-placeholder-reveal.svg",
-        "alt": "Placeholder image 4 of 4"
+        "src": "/images/presentation-placeholders/frame-16447-alt.svg",
+        "alt": "New layout detail"
       }
     ]
   },
   {
     "kicker": "Design decisions",
-    "title": "Designing for trust — the transparency problem",
-    "body": "The design decision: show **just enough** for people to understand and work with the system.\n\nWhat we implemented:\n\n1. **Progressive disclosure** — by design.\n2. **Surface just enough**, and make everything else easily accessible.\n3. **User control** — make it clear everything is modifiable; they can pause or delete anything at any point.",
+    "title": "How we build trust and speed",
+    "body": "",
     "plain": true,
-    "figures": [
+    "insightCardGrid": [
       {
-        "src": "/images/presentation-placeholders/slide-placeholder.svg",
-        "alt": "Placeholder image"
-      }
-    ]
-  },
-  {
-    "kicker": "Process",
-    "icon": "partnership",
-    "title": "Engineering in the room from day one",
-    "body": "Not a handoff — engineers in research sessions.\n\nThey knew why, not only what.\n\nPrototyped with Figma Make for rapid live testing — faster feedback loops.\n\nWhen research changed direction (week 3 pivot), engineering moved with us because they understood the why.",
-    "plain": true,
-    "figures": [
+        "kicker": "Design decisions",
+        "icon": "confidence",
+        "title": "Building trust through transparency",
+        "body": "What we implemented:\n\n1. **Progressive disclosure** — by design.\n\n2. **Surface just enough**, and make everything else easily accessible.\n\n3. **User control** — make it clear everything is modifiable; they can pause or delete anything at any point."
+      },
       {
-        "src": "/images/presentation-placeholders/slide-placeholder.svg",
-        "alt": "Placeholder image"
-      }
-    ]
-  },
-  {
-    "kicker": "Outcome",
-    "icon": "activation",
-    "title": "From 3 months to 90 seconds",
-    "body": "New-user activation: ~3 months of AM dependency → about 90 seconds self-serve for key flows.",
-    "plain": true,
-    "figures": [
-      {
-        "src": "/images/presentation-placeholders/slide-placeholder.svg",
-        "alt": "Placeholder image"
-      }
-    ],
-    "prototypeCta": {
-      "intro": "View clickable prototype:",
-      "label": "check out the vibe coded prototype ;)",
-      "href": "https://prism-prototype-sigma.vercel.app/"
-    }
-  },
-  {
-    "kicker": "Impact",
-    "title": "The research shaped what came next",
-    "body": "Real-time aggregate panels became reusable infrastructure — carried directly into subsequent product work.\n\nAI transparency patterns (surface just enough, make the rest accessible) became a design principle applied across the platform.\n\nThe “AI alongside, not owning” layout principle influenced how the team thought about AI placement in other features.\n\nCodeset architecture introduced here became a foundational component reused in code search and clinical code discovery features.",
-    "plain": true,
-    "figures": [
-      {
-        "src": "/images/presentation-placeholders/slide-placeholder.svg",
-        "alt": "Placeholder image"
+        "kicker": "Outcome",
+        "icon": "activation",
+        "title": "From 3 months to 90 seconds",
+        "body": "Before: New users waited ~3 months for an AM to build their first cohort\n\nAfter: Self-serve in 90 seconds for key flows"
       }
     ]
   },
@@ -186,7 +219,7 @@
       },
       {
         "icon": "sparkles",
-        "title": "AI confidence is a product problem, not a feature problem.",
+        "title": "AI trust is about transparency calibration",
         "body": "Trust is designed, not assumed: surface just enough to move confidently; put the rest one deliberate step away."
       },
       {
