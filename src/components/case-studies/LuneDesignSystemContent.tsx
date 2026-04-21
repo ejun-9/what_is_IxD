@@ -98,6 +98,11 @@ const reflectionTags = [
   "Startup Design",
 ];
 
+const reflectionShippedLinks = [
+  { label: "Lune MVP", href: "https://lune-planner.vercel.app/" },
+  { label: "Brand Foundation", href: "https://lune-brand-docs.vercel.app/" },
+] as const;
+
 const LUNE_PRESENTATION_SECTIONS: PresentationSection[] = [
   { id: "lune-intro", label: "From consensus to control" },
   {
@@ -361,10 +366,7 @@ export function LuneDesignSystemContent() {
               </p>
             </div>
           </div>
-          <ul
-            className="mt-10 flex flex-wrap gap-2"
-            aria-label="Topics"
-          >
+          <ul className="mt-10 flex flex-wrap gap-2" aria-label="Topics">
             {reflectionTags.map((tag) => (
               <li key={tag}>
                 <span className="inline-flex rounded-full border border-[var(--rule)] bg-[var(--wash)] px-3 py-1.5 text-xs font-medium text-[var(--ink-soft)]">
@@ -373,6 +375,29 @@ export function LuneDesignSystemContent() {
               </li>
             ))}
           </ul>
+          <nav
+            className="mt-8 border-t border-[var(--rule)] pt-6"
+            aria-label="Prototype links"
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--muted)]">Prototype links</p>
+            <ul className="mt-3 flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:gap-y-2">
+              {reflectionShippedLinks.map((item) => (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-medium text-[var(--accent)] underline decoration-[var(--accent)]/35 underline-offset-4 transition hover:decoration-[var(--accent)]"
+                  >
+                    {item.label}
+                    <span className="ml-0.5 text-xs font-normal opacity-70" aria-hidden>
+                      ↗
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </FadeIn>
       </ScrollZoomSection>
     </>
